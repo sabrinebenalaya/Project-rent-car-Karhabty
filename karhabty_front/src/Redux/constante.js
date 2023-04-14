@@ -10,6 +10,7 @@ export const GET_REVIEW_By_CAR = "GET_REVIEW_By_CAR";
 
 export const GET_ALL_ANNOUCEMENT = "GET_ALL_ANNOUCEMENT";
 export const GET_ANNOUCEMENT_By_ID = "GET_ANNOUCEMENT_By_ID";
+export const GET_ALL_By_AGENCY = "GET_ALL_By_AGENCY";
 
 export const GET_USER_By_ID = "GET_USER_By_ID";
 export const ADD_USER = "ADD_USER";
@@ -24,7 +25,7 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGOUT = "LOGOUT";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 
-export const GET_ALL_ORDERS_BY_USER= "GET_ALL_ORDERS_BY_USER"
+export const GET_ALL_ORDERS_BY_USER = "GET_ALL_ORDERS_BY_USER";
 
 export const BrandOptions = [
   {
@@ -211,6 +212,3 @@ export const AdressOptions = [
     value: "Mahdia",
   },
 ];
-
-
-

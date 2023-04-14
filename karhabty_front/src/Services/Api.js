@@ -42,5 +42,6 @@ export const Url_delete_announcement_ById = `${envApp}${envAnnouncement}`;
 export const Url_get_announcement_ById = `${envApp}${envAnnouncement}`;
 export const Url_all_announcement = `${envApp}${envAnnouncement}`;
 export const Url_all_active_announcement = `${envApp}karhabtyAnnouncement/activeAnnouncement`;
+export const Url_get_announcement_ByAgency =`${envApp}karhabtyAnnouncement/activeAnnouncement`;
 
 

@@ -9,8 +9,7 @@ import { butonCircle, iconPink } from "../../Style/Style";
 import { GrChapterAdd } from "react-icons/gr";
 import CustomModal from "../../Atom/CustomModal";
 import { isEmpty } from "./../../Validator/isEmpty";
-function ProfilUser({id}) {
-
+function ProfilUser({ id, role }) {
   // get the user from stor
 
   const user = useSelector((state) => state.ReducerUser.user);
@@ -65,15 +64,25 @@ function ProfilUser({id}) {
                 </p>
                 <p className="text-muted mb-1">{user.mail} </p>
                 <div className="d-flex justify-content-center  mt-4">
-                  <Link to="/">
-                    <button
-                      type="button"
-                      className="btn btn-outline-primary ms-1"
-                    >
-                      Add new Order <GrChapterAdd />
-                    </button>
-                  </Link>
-                 
+                  {role === "Agency" ? (
+                    <Link to="/AddAnnoucement">
+                      <button
+                        type="button"
+                        className="btn btn-outline-primary ms-1"
+                      >
+                        Add new Annoucement <GrChapterAdd />
+                      </button>
+                    </Link>
+                  ) : (
+                    <Link to="/">
+                      <button
+                        type="button"
+                        className="btn btn-outline-primary ms-1"
+                      >
+                        Add new Order <GrChapterAdd />
+                      </button>
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>

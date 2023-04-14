@@ -3,16 +3,18 @@ import CardOfAnnoucement from "./CardOfAnnoucement";
 import { bloc_flex } from "../../Style/Style";
 import { useDispatch, useSelector } from "react-redux";
 import LoaderPage from "./../loader/LoaderPage";
-import { getAll } from "../../Redux/Actions/actionAnnoucement";
-function ListOfAnnoucements() {
- 
- // get the list of annoucements
+import { getAll, getAllByAgency } from "../../Redux/Actions/actionAnnoucement";
+function ListOfAnnoucements({ id, role }) {
+  // get the list of annoucements
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getAll());
+    if (role === "Agency") {
+      dispatch(getAllByAgency(id))
+    } else {
+      dispatch(getAll());
+    }
   }, [dispatch]);
   const list = useSelector((state) => state.ReducerAnnoucement.announcements);
- 
 
   return (
     <>
