@@ -18,7 +18,7 @@ function ListOfOrder({ idUser }) {
     dispatch(getAllOrdersByUser(idUser));
   }, [idUser, dispatch]);
   const listOrders = useSelector((state) => state.ReducerOrder.orders);
-  console.log("listOrders", listOrders);
+ 
   return (
     <div className=" container py-5 ">
       <MDBTable align="middle">
@@ -36,9 +36,9 @@ function ListOfOrder({ idUser }) {
             <LoaderPage />
           ) : (
             listOrders.map((item, key) => (
-              <tr key={key}>
-                <OrderItem order={item} />
-              </tr>
+            
+                <OrderItem key={key} order={item} />
+             
             ))
           )}
         </MDBTableBody>

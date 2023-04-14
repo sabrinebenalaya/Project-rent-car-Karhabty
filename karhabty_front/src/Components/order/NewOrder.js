@@ -29,6 +29,7 @@ function NewOrder() {
   useEffect(() => {
     dispatch(getOne(id));
   }, [id, dispatch]);
+
   // get car info
   const car = useSelector((state) => state.ReducerCars.car);
   useEffect(() => {
@@ -54,7 +55,6 @@ function NewOrder() {
 
   /// dates of order
   const [startDate, setStartDate] = useState(null);
-
   const handleStartDateChange = (date) => {
     setStartDate(date);
   };
@@ -148,6 +148,7 @@ function NewOrder() {
 
               <strong style={strongText}>End date :</strong>
               <div style={{ display: "flex", flexDirection: "row" }}>
+                .
                 <CustomDatePicker
                   stDate={annoucement.availableStartDate}
                   enDate={annoucement.availableEndDate}
