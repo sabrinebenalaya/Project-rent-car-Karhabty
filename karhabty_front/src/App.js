@@ -20,7 +20,8 @@ import NewOrder from "./Components/order/NewOrder";
 
 import ConnectedRoute from "./Routes/ConnectedRoute";
 import AddAnnoucement from "./Components/listOfAnnoucement/AddAnnoucement";
-import AgencyRoute from './Routes/AgencyRoute';
+import AgencyRoute from "./Routes/AgencyRoute";
+import EditAnnoucement from "./Components/listOfAnnoucement/EditAnnoucement";
 
 function App() {
   const auth = useSelector((state) => state.ReducerAuth);
@@ -51,8 +52,6 @@ function App() {
               index
               element={<ListOfAnnouncements id={user.id} role={user.role} />}
             />
-
-            <Route path="annoucement/:id" element={<DetailAnnoucement />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
 
@@ -81,7 +80,30 @@ function App() {
                 </UserRoute>
               }
             />
-            <Route path="AddAnnoucement" element={<AgencyRoute user={user}><AddAnnoucement /></AgencyRoute>} />
+            <Route
+              path="AddAnnoucement"
+              element={
+                <AgencyRoute user={user}>
+                  <AddAnnoucement />
+                </AgencyRoute>
+              }
+            />
+            <Route
+              path="annoucement/:id"
+              element={
+                <ConnectedRoute user={user}>
+                  <DetailAnnoucement role={user.role} />
+                </ConnectedRoute>
+              }
+            />
+            <Route
+              path="editAnnoucement/:id"
+              element={
+                <AgencyRoute user={user}>
+                  <EditAnnoucement id={user.id} />
+                </AgencyRoute>
+              }
+            />
           </Route>
           <Route path="/contact" element={<Footer />} />
         </Routes>

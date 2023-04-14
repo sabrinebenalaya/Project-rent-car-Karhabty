@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import {
-  MDBBadge,
-  MDBBtn,
   MDBTable,
   MDBTableHead,
   MDBTableBody,

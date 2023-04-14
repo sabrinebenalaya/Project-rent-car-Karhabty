@@ -52,7 +52,7 @@ function CustomModal({
     setNameState({ ...nameState, [e.target.name]: e.target.value });
   };
 
-  // save the data
+  // save the data and agencyName
   const [text, setText] = useState("");
   const [attribut, setAttribut] = useState("");
   const handleChangeState = (e) => {
@@ -118,10 +118,20 @@ function CustomModal({
       }
     }
 
-    if (attribut === "birthDate") {
-      dispatch(updateUser({ [attribut]: text }, id));
-      handleClose();
-      dispatch(getUser(id));
+    if (attribut === "birthDate" || attribut === "agencyName") { 
+      if (attribut === "agencyName") {
+        if (!validator.isLength(text.trim(), { min: 1 })) {
+          toast.error("The agencyName must have at least 1 letter.");
+        } else {
+          dispatch(updateUser({ [attribut]: text }, id));
+          handleClose();
+          dispatch(getUser(id));
+        }
+      } else {
+        dispatch(updateUser({ [attribut]: text }, id));
+        handleClose();
+        dispatch(getUser(id));
+      }
     }
   };
 
@@ -155,6 +165,15 @@ function CustomModal({
               handleChange={handleChangeStateName}
             />
           </>
+        )}
+
+        {modalTitle === "Your Agency Name" && (
+          <CustomInput
+            titelFieald={"Agency name"}
+            placeholder={"Plz tape your Agency name"}
+            name={"agencyName"}
+            handleChange={handleChangeState}
+          />
         )}
 
         {modalTitle === "Your address" && (

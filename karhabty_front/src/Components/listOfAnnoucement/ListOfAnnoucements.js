@@ -13,7 +13,7 @@ function ListOfAnnoucements({ id, role }) {
     } else {
       dispatch(getAll());
     }
-  }, [dispatch]);
+  }, [id,role,dispatch]);
   const list = useSelector((state) => state.ReducerAnnoucement.announcements);
 
   return (

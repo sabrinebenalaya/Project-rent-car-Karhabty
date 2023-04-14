@@ -18,7 +18,7 @@ import {
 import DetailCar from "../car/DetailCar";
 import { Link } from "react-router-dom";
 
-function DetailAnnoucement() {
+function DetailAnnoucement({ role }) {
   /* Modal*/
   const [show, setShow] = useState(false);
 
@@ -77,10 +77,15 @@ function DetailAnnoucement() {
             >
               More Detail of car
             </Button>
-
-            <Link to={`/profil/order/${annoucement._id}`}>
-              <Button variant="success">Order</Button>
-            </Link>
+            {role === "Agency" ? (
+              <Link to={`/editAnnoucement/${annoucement._id}`}>
+                <Button variant="success">Edit</Button>
+              </Link>
+            ) : (
+              <Link to={`/profil/order/${annoucement._id}`}>
+                <Button variant="success">Order</Button>
+              </Link>
+            )}
           </div>
         </div>
         <div style={Rigth}>

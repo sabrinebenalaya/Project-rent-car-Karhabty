@@ -6,8 +6,9 @@ export function validatorName(data) {
 
   data.lastName = !isEmpty(data.lastName) ? data.lastName : "";
   data.firstName = !isEmpty(data.firstName) ? data.firstName : "";
+  data.agencyName = !isEmpty(data.agencyName) ? data.agencyName : "";
 
-
+  
 
   if (!validator.isLength(data.lastName, { min: 1 })) {
     errors.lastName = "The lastName must have 1 letter atlist.";

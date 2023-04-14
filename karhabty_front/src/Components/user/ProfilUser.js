@@ -26,19 +26,21 @@ function ProfilUser({ id, role }) {
   const [showAdress, setShowAdress] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showName, setShowName] = useState(false);
+  const [showAgencyName, setShowAgencyName] = useState(false);
 
   const handleShowPhone = () => setShowPhone(true);
   const handleShowAdress = () => setShowAdress(true);
   const handleShowBirthDay = () => setShowBirthDay(true);
   const handleShowPassword = () => setShowPassword(true);
   const handleShowName = () => setShowName(true);
+  const handleShowAgencyName = () => setShowAgencyName(true);
 
   const handleClosePhone = () => setShowPhone(false);
   const handleCloseAdress = () => setShowAdress(false);
   const handleCloseBirthDay = () => setShowBirthDay(false);
   const handleClosePassword = () => setShowPassword(false);
   const handleCloseName = () => setShowName(false);
-
+  const handleCloseAgencyName = () => setShowAgencyName(false);
   return (
     <section className="container" style={{ backgroundColor: "#fffaf6" }}>
       <div className="container py-5">
@@ -191,10 +193,30 @@ function ProfilUser({ id, role }) {
                 <hr />
                 <div className="row">
                   <div className="col-sm-3">
-                    <p className="mb-0">Birth day</p>
+                    <p className="mb-0">
+                      {role === "Agency" ? "Agency Name" : "Birthday"}
+                    </p>
                   </div>
                   <div className="col-sm-9">
-                    {!user.birthDate ? (
+                    {role === "Agency" ? (
+                      isEmpty(user.agencyName) ? (
+                        <Button
+                          variant="success"
+                          style={{ backgroundColor: "#FBCCD2", color: "black" }}
+                          onClick={handleShowAgencyName}
+                        >
+                          <BiEditAlt />
+                        </Button>
+                      ) : (
+                        <p className="text-muted mb-0">
+                          {user.agencyName}
+                          <BiEditAlt
+                            style={iconPink}
+                            onClick={handleShowAgencyName}
+                          />
+                        </p>
+                      )
+                    ) : !user.birthDate ? (
                       <Button
                         variant="success"
                         style={{ backgroundColor: "#FBCCD2", color: "black" }}
@@ -226,6 +248,20 @@ function ProfilUser({ id, role }) {
                     id={user._id}
                     birthDay={user.birthDate}
                   />
+                  <CustomModal
+                  modalTitle="Your Agency Name"
+                  titelFieald="Agency Name"
+                  placeholder="Agency Name"
+                  name="agencyName"
+                  variantClose="secondary"
+                  titleClose="Close"
+                  variantSave="primary"
+                  titleSave="Save"
+                  show={showAgencyName}
+                  handleClose={handleCloseAgencyName}
+                  id={user._id}
+                  agencyName={user.agencyName}
+                />
                 </div>
                 <hr />
                 <div className="row">

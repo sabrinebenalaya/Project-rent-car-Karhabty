@@ -39,13 +39,20 @@ announcementController.getAllActiveAnnouncements = async (req, res) => {
 };
 
 // Retrieve all active announcements by Agency
-announcementController.getAllActiveAnnouncementsByAgency = async (req, res) => {
+announcementController.getAllAnnouncementsByAgency = async (req, res) => {
   try {
-    const announcements = await Announcement.find({status:"active", agence:req.params.id});
+    const announcements = await Announcement.find({ agence:req.params.id});
     
-    announcements
-      ? res.status(200).json(announcements)
-      : res.status(404).json({ message: "Announcements not found" });
+    if (!announcements) {
+      return res.status(404).json({ message: "Announcements not found" });
+    }
+
+    // trier le tableau par ordre décroissant d'annonces actives
+    announcements.sort((a, b) => b.active - a.active);
+    
+    res.status(200).json(announcements);
+
+   
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
