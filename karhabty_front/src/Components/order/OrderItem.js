@@ -9,6 +9,8 @@ import { getAgency } from "../../Redux/Actions/actionAgency";
 import { getReviewCar } from "../../Redux/Actions/actionRate";
 import { strongText } from "../../Style/Style";
 function OrderItem({ order }) {
+
+  
   //get annoucement information
   const dispatch = useDispatch();
   const annoucement = useSelector(
@@ -17,47 +19,22 @@ function OrderItem({ order }) {
   useEffect(() => {
     dispatch(getOne(order.announcement));
   }, [order.announcement, dispatch]);
- 
-/*
-  // get car information
 
-  const car = useSelector((state) => state.ReducerCars.car);
-  useEffect(() => {
-    dispatch(getCar(annoucement.car));
-  }, [annoucement.car, dispatch]);
-
-
-  // get agency information
-
-  const agency = useSelector((state) => state.ReducerAgency.agency);
-  useEffect(() => {
-    dispatch(getAgency(annoucement.agency));
-  }, [annoucement.agency, dispatch]);
-
-
-  //get the review of the car
-  const reviews = useSelector((state) => state.ReducerReview.reviews);
-  useEffect(() => {
-    dispatch(getReviewCar(car._id));
-  }, [car._id, dispatch]);*/
   useEffect(() => {
     if (annoucement) {
       Promise.all([
         dispatch(getCar(annoucement.car)),
-        dispatch(getAgency(annoucement.agency)),
+        dispatch(getAgency(annoucement.agence)),
         dispatch(getReviewCar(annoucement.car)),
       ]);
     }
   }, [annoucement, dispatch]);
-  
+
   const car = useSelector((state) => state.ReducerCars.car);
   const agency = useSelector((state) => state.ReducerAgency.agency);
   const reviews = useSelector((state) => state.ReducerReview.reviews);
-  
 
-  const averageRating =
-    reviews.reduce((total, review) => total + review.rating, 0) /
-    reviews.length;
+
 
   // cast the date of order
   function reverseString(str) {
@@ -86,10 +63,9 @@ function OrderItem({ order }) {
       bgStatus.class = "";
       break;
   }
-  
 
   return (
-    <tr class={bgStatus.class} >
+    <tr className={bgStatus.class}>
       <td>
         <p className="fw-normal mb-1" style={strongText}>
           {order.ref}
@@ -112,15 +88,18 @@ function OrderItem({ order }) {
         </div>
       </td>
       <td>{order.price} Dnt</td>
-      <td><MDBBadge
-      color={bgStatus.color}
-      
-      style={{ marginTop: "10px" }}
-    >
-      {order.status}
-    </MDBBadge></td>
       <td>
-        {averageRating}/5 <AiFillStar />
+        <MDBBadge color={bgStatus.color} style={{ marginTop: "10px" }}>
+          {order.status}
+        </MDBBadge>
+      </td>
+      <td>
+        {reviews.length === 0
+        ? 0
+        : reviews.reduce((total, review) => total + review.rating, 0) /
+          reviews.length}
+        /5
+        <AiFillStar />
       </td>
     </tr>
   );
