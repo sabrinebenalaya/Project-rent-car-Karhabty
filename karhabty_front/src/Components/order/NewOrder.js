@@ -17,6 +17,7 @@ import { useSelector, useDispatch } from "react-redux";
 import CustomDatePicker from "../../Atom/CustomDatePicker";
 import { Link } from "react-router-dom";
 import { isEmpty } from "./../../Validator/isEmpty";
+import "react-datepicker/dist/react-datepicker.css";
 
 function NewOrder() {
   //get id of annoucement

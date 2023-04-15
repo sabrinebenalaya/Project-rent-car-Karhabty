@@ -156,7 +156,7 @@ function Register() {
                         style={{ backgroundColor: "#e83e8c" }}
                         onClick={handelSumbit}
                       >
-                        Submit form
+                        Register
                       </button>
                     </div>
                   </div>

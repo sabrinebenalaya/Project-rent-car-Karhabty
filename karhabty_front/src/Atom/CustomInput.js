@@ -12,7 +12,7 @@ function CustomInput({
 }) {
   return (
     <Form.Group className="mb-3" style={style}>
-      <Form.Label>{titelFieald}</Form.Label>
+      <h6>{titelFieald}</h6>
       <Form.Control
         type={type}
         placeholder={placeholder}

@@ -80,11 +80,12 @@ function App() {
                 </UserRoute>
               }
             />
+           
             <Route
               path="AddAnnoucement"
               element={
-                <AgencyRoute user={user}>
-                  <AddAnnoucement />
+                <AgencyRoute user={user} >
+                  <AddAnnoucement id={user.id} />
                 </AgencyRoute>
               }
             />

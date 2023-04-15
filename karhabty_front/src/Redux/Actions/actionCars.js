@@ -10,7 +10,6 @@ import { getFromApi } from "../../Services/serviceAPI";
 export const getAllCars = () => async (dispatch) => {
   try {
     const cars = await getFromApi(Url_get_all_cars);
-    console.log("liste des carr dans action", cars.data)
     dispatch({ type: GET_ALL_CARS, payload: cars.data });
   } catch (e) {
     console.log(e);

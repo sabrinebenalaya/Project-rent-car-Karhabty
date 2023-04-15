@@ -6,7 +6,6 @@ export function validatorName(data) {
 
   data.lastName = !isEmpty(data.lastName) ? data.lastName : "";
   data.firstName = !isEmpty(data.firstName) ? data.firstName : "";
-  data.agencyName = !isEmpty(data.agencyName) ? data.agencyName : "";
 
   
 

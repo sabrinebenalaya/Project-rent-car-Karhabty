@@ -20,7 +20,7 @@ export const Url_login =`${envApp}${envAuth}login`;
 
 const envUser ="karhabtyUser/"
 export const Url_get_agency_ById = `${envApp}${envUser}agency`;
-export const Url_get_user_ById = `${envApp}${envUser}/user/`;
+export const Url_get_user_ById = `${envApp}${envUser}user/`;
 export const Url_all_user_ByRole = `${envApp}${envUser}/users/`;
 export const Url_update_User_ById = `${envApp}${envUser}user/`;
 
