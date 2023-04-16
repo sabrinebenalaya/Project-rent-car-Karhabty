@@ -65,7 +65,8 @@ function DetailAnnoucement({ role }) {
   const circleColor = { ...circle, backgroundColor: annoucement.color };
 
   return (
-    <div style={{ backgroundColor: "#fffaf6", margin: "2%" }}>
+    <div  className="container" >
+    <div style={{ backgroundColor: "#fffaf6", marginTop: "2%" }}>
       <div style={flex_two_element}>
         <div style={Left}>
           <img src={annoucement.photo} alt="the car" />
@@ -126,7 +127,7 @@ function DetailAnnoucement({ role }) {
             <div style={{ height: "30vh", width: "100%" }}>
               <GoogleMapReact
                 bootstrapURLKeys={{
-                  key: "AIzaSyDqJAmQ5hIyvktMCkh4Jpa_NkmVwvHtRcs",
+                  key: process.env.ApiKey,
                 }}
                 center={{
                   lat: annoucement.latitude,
@@ -146,6 +147,7 @@ function DetailAnnoucement({ role }) {
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
       </Modal>
+    </div>
     </div>
   );
 }

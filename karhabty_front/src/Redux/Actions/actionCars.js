@@ -1,10 +1,10 @@
-import { GET_ALL_CARS, SEARCH_CAR, GET_CAR_By_ID } from "../constante";
+import { GET_ALL_CARS, SEARCH_CAR, GET_CAR_By_ID, ADD_CAR } from "../constante";
 import {
   Url_get_all_cars,
   Url_search_cars,
-  Url_get_car_ById,
+  Url_get_car_ById,Url_add_car
 } from "../../Services/Api";
-import { getFromApi } from "../../Services/serviceAPI";
+import { getFromApi, postInApi } from "../../Services/serviceAPI";
 
 //get all the cars
 export const getAllCars = () => async (dispatch) => {
@@ -54,8 +54,17 @@ export const getCar = (id) => async (dispatch) => {
   }
 };
 
-export const addCar = async () => {
-  return { type: "ADD_CAR" };
+export const addCar =(newcar)=> async (dispatch) => {
+  console.log("car", newcar)
+try {
+  const car = await postInApi(Url_add_car,newcar);
+
+  dispatch({ type: ADD_CAR, payload: car.data });
+ 
+} catch (error) {
+  console.log(error);
+}
+
 };
 
 export const updateCar = async () => {

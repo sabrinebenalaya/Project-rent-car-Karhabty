@@ -7,7 +7,7 @@ const orderRoute = require('./route/orderRoute')
 const reviewRoute = require('./route/reviewRoute')
 const authRoute = require('./route/authRoute')
 const announcementRoute = require('./route/announcementRoute')
-
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const connect = require("./ConnectDB/connectDB");
 
 const app = express();
@@ -24,7 +24,11 @@ app.listen(port, (e) => {
 
 
 connect();
-app.use(cors())
+
+app.use(cors({
+  origin: '*'
+}));
+
 app.use(express.json());
 app.use('/karhabtyAnnouncement', announcementRoute);
 app.use('/karhabtyUser', userRoute);

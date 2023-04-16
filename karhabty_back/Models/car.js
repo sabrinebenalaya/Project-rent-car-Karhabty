@@ -5,7 +5,7 @@ const carSchema = mongoose.Schema({
   year: { type: Number, required: false },
   color: { required: true, type: String },
   typeFuel: { type: String, required: true },
-  photo: { required: true, type: String },
+  photo: {  type: String },
   status: {
     type: String,
     enum: ["active", "inactive"],
@@ -31,4 +31,4 @@ const carSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Car", carSchema);
+module.exports = mongoose.model("Car", carSchema); 

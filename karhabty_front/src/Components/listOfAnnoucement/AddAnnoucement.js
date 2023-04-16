@@ -12,7 +12,8 @@ import CustomModal from "../../Atom/CustomModal";
 import { getUser } from "../../Redux/Actions/actionUser";
 import { MDBSwitch } from "mdb-react-ui-kit";
 import { isEmpty } from "../../Validator/isEmpty";
-
+import { addAnnoucement } from "../../Redux/Actions/actionAnnoucement";
+import { toast } from "react-toastify";
 function AddAnnoucement({ id }) {
   //get the list of cars
   const dispatch = useDispatch();
@@ -35,11 +36,10 @@ function AddAnnoucement({ id }) {
   const [endDate, setEndDate] = useState(null);
 
   const handleDateChange = (dates) => {
-    console.log({dates})
+    console.log({ dates });
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
-    
   };
 
   const selectionRange = {
@@ -47,13 +47,12 @@ function AddAnnoucement({ id }) {
     endDate: endDate,
     key: "selection",
   };
- 
+
   //set modal for adding a car
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  // add annoucement
 
   const [annoucement, SetAnnoucement] = useState({});
 
@@ -67,40 +66,62 @@ function AddAnnoucement({ id }) {
       }
     } else {
       SetAnnoucement({ ...annoucement, [e.target.name]: e.target.value });
-    }   
+    }
   };
 
+  // get altitude et langetitude from adresse (string)
+  const latitude = 53;
+  const longitude = 10;
 
-  const handelAddAnnoucement = () => {
-    
-    if (!isEmpty(annoucement.address)) {
-      const stateAdress = {};
+  // add annoucement
+  const handelAddAnnoucement = (e) => {
+    e.preventDefault();
+
+    if (annoucement && typeof annoucement.address === "string") {
+      const stateAddress = {};
       const parts = annoucement.address.split(",");
-      stateAdress.city = parts[0];
-      stateAdress.governorate = parts[1];
-      stateAdress.postalCode = parts[2];
-      stateAdress.country = parts[3];
-      annoucement.address = stateAdress;
+      stateAddress.city = parts[0];
+      stateAddress.governorate = parts[1];
+      stateAddress.postalCode = parts[2];
+      stateAddress.country = parts[3];
+      annoucement.address = stateAddress;
     }
-    console.log("starting date", startDate, "ty", typeof(startDate))
-    console.log("EndingDate", endDate)
+    
 
-    if (!isEmpty(startDate)) {
+    if (isEmpty(startDate)) {
       SetAnnoucement({ ...annoucement, availableStartDate: startDate });
-    } else{
-      console.log("prob")
+    } else {
+      console.log("prob");
     }
-    if(!isEmpty(endDate)){
-      SetAnnoucement({ ...annoucement,  availableEndDate: endDate });
+    if (isEmpty(endDate)) {
+      SetAnnoucement({ ...annoucement, availableEndDate: endDate });
     }
-console.log ("anoucement", annoucement)
+    if (!isEmpty(latitude)) {
+      SetAnnoucement({ ...annoucement, latitude: latitude });
+    } else {
+      console.log("laltitude", latitude);
+    }
+
+    if (!isEmpty(longitude)) {
+      SetAnnoucement({ ...annoucement, longitude: longitude });
+    }
+
+
+    if (!isEmpty(annoucement)){
+      dispatch(addAnnoucement(annoucement))
+    }else{
+      toast.error("All the information are empty");
+    }
   };
+  console.log("anoucement", annoucement);
 
   //get agency information
   useEffect(() => {
     dispatch(getUser(id));
   }, [id, dispatch]);
+
   const agency = useSelector((state) => state.ReducerUser.user);
+
   const agencyAdress =
     agency.address.city +
     "," +
@@ -162,17 +183,19 @@ console.log ("anoucement", annoucement)
                 alignItems: "center",
               }}
             >
-              <Form.Select
-                size="lg"
-                onClick={handleCarSelect}
-                style={{ width: "100%", height: "45px" }}
-              >
-                {cars.map((car, index) => (
-                  <option key={index} value={car._id}>
-                    {car.brand}, {car.model}
-                  </option>
-                ))}
-              </Form.Select>
+            <Form.Select
+            size="lg"
+            onClick={handleCarSelect}
+            style={{ width: "100%", height: "45px" }}
+          >
+            {Array.isArray(cars) &&
+              cars.map((car, index) => (
+                <option key={index} value={car._id}>
+                  {car.brand}, {car.model}
+                </option>
+              ))}
+          </Form.Select>
+          
             </div>
 
             <div
@@ -184,7 +207,12 @@ console.log ("anoucement", annoucement)
               }}
             >
               {selectedCarPath && (
-                <img src={selectedCarPath} width={"400px"} height={"200px"} />
+                <img
+                  src={selectedCarPath}
+                  alt={"car"}
+                  width={"400px"}
+                  height={"200px"}
+                />
               )}
             </div>
           </div>
@@ -214,14 +242,16 @@ console.log ("anoucement", annoucement)
               placeholder={"Tape the price by day"}
               name={"price"}
               handleChange={handleChangeAnnoucement}
-            />Dnt
+            />
+            Dnt
             <CustomInput
               titelFieald={" Security deposit :"}
               placeholder={"Tape the security deposit of your annoucement"}
               name={"securityDeposit"}
               handleChange={handleChangeAnnoucement}
               style={{ width: "50vh", marginRight: "20px" }}
-            /> Dnt
+            />{" "}
+            Dnt
           </div>
           <hr style={{ marginTop: "2%" }} />
           <div style={flex_two_element}>
@@ -259,10 +289,10 @@ console.log ("anoucement", annoucement)
                   <div>
                     <button onClick={decreaseMonth}>{"<"}</button>
                     <span>
-                    {new Intl.DateTimeFormat("en-US", {
-                      month: "long",
-                      year: "numeric",
-                    }).format(date)}
+                      {new Intl.DateTimeFormat("en-US", {
+                        month: "long",
+                        year: "numeric",
+                      }).format(date)}
                     </span>
                     <button onClick={increaseMonth}>{">"}</button>
                   </div>

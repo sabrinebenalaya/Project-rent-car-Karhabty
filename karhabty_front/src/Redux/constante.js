@@ -11,6 +11,7 @@ export const GET_REVIEW_By_CAR = "GET_REVIEW_By_CAR";
 export const GET_ALL_ANNOUCEMENT = "GET_ALL_ANNOUCEMENT";
 export const GET_ANNOUCEMENT_By_ID = "GET_ANNOUCEMENT_By_ID";
 export const GET_ALL_By_AGENCY = "GET_ALL_By_AGENCY";
+export const ADD_ANNOUCEMENT = "ADD_ANNOUCEMENT";
 
 export const GET_USER_By_ID = "GET_USER_By_ID";
 export const ADD_USER = "ADD_USER";
@@ -26,6 +27,29 @@ export const LOGOUT = "LOGOUT";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 
 export const GET_ALL_ORDERS_BY_USER = "GET_ALL_ORDERS_BY_USER";
+
+export const colors = [
+  { Amber: "#FFBF00" },
+  { Blue: "#0000FF" },
+  { BlueGrey: "#263238" },
+  { Brown: "#A52A2A" },
+  { Black: "#000000" },
+  { Cyan: "#00FFFF" },
+  { DeepOrange: "#FF5722" },
+  { DeepPurple: "#673AB7" },
+  { Green: "#4CAF50" },
+  { Grey: "#9E9E9E" },
+  { Indigo: "#3F51B5" },
+  { LightBlue: "#03A9F4" },
+  { LightGreen: "#8BC34A" },
+  { Lime: "#CDDC39" },
+  { Orange: "#FF9800" },
+  { Pink: "#E91E63" },
+  { Purple: "#9C27B0" },
+  { Red: "#FF0000" },
+  { Teal: "#009688" },
+  { Yellow: "#FFEB3B" },
+];
 
 export const BrandOptions = [
   {

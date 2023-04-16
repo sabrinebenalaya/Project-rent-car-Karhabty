@@ -14,12 +14,12 @@ const announcementSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  status: { type: String, enum: ["active", "inactive"], required: true },
+  status: { type: String, enum: ["Active", "Inactive"], required: true },
   titre: { type: String, required: true },
   description: { required: true, type: String },
-  availableStartDate: { type: Date, default: Date.now },
+  availableStartDate: { type: Date},
 
-  availableEndDate: { type: Date, default: Date.now },
+  availableEndDate: { type: Date },
 
   car: {
     type: mongoose.Schema.Types.ObjectId,

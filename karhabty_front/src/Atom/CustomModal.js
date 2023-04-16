@@ -12,6 +12,7 @@ import { validatorPassword } from "./../Validator/validatorPassword";
 import { validatorPhone } from "../Validator/validatorPhone";
 import validator from "validator";
 import { validatorName } from "../Validator/validatorName";
+import AddCar from "../Components/car/AddCar";
 function CustomModal({
   modalTitle,
   titelFieald,
@@ -149,7 +150,10 @@ function CustomModal({
             handleChange={handleChangeState}
           />
         )}
-
+        {modalTitle === "Add New Car" && (
+         
+          <AddCar handleClose={handleClose}/>
+        )}
         {modalTitle === "Your Name" && (
           <>
             <CustomInput
@@ -240,18 +244,18 @@ function CustomModal({
           </>
         )}
       </Modal.Body>
-      <Modal.Footer>
-        <CustomButton
-          variant={variantClose}
-          title={titleClose}
-          handleClick={handleClose}
-        />
-        <CustomButton
-          variant={variantSave}
-          title={titleSave}
-          handleClick={save}
-        />
-      </Modal.Footer>
+    {modalTitle !== "Add New Car"&&(<Modal.Footer>
+      <CustomButton
+        variant={variantClose}
+        title={titleClose}
+        handleClick={handleClose}
+      />
+      <CustomButton
+        variant={variantSave}
+        title={titleSave}
+        handleClick={save}
+      />
+    </Modal.Footer>)}  
     </Modal>
   );
 }
