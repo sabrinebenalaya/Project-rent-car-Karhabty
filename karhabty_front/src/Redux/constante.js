@@ -7,6 +7,8 @@ export const SEARCH_CAR = "SEARCH_CAR";
 
 export const GET_REVIEW_By_ID = "GET_REVIEW_By_ID";
 export const GET_REVIEW_By_CAR = "GET_REVIEW_By_CAR";
+export const GET_All_REVIEW = "GET_All_REVIEW";
+
 
 export const GET_ALL_ANNOUCEMENT = "GET_ALL_ANNOUCEMENT";
 export const GET_ANNOUCEMENT_By_ID = "GET_ANNOUCEMENT_By_ID";
@@ -17,6 +19,8 @@ export const GET_USER_By_ID = "GET_USER_By_ID";
 export const ADD_USER = "ADD_USER";
 export const UPDATE_USER = "UPDATE_USER";
 export const DELETE_USER = "DELETE_USER";
+export const UPDATE_USERPHOTO = "UPDATE_USERPHOTO";
+export const GET_ALL_USER = "GET_ALL_USER";
 
 export const GET_AGENCY_By_ID = "GET_AGENCY_By_ID";
 export const PUT_AGENCY_By_ID = "PUT_AGENCY_By_ID";
@@ -27,6 +31,9 @@ export const LOGOUT = "LOGOUT";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 
 export const GET_ALL_ORDERS_BY_USER = "GET_ALL_ORDERS_BY_USER";
+export const GET_ALL_ORDERS_BY_AGENCY = "GET_ALL_ORDERS_BY_AGENCY";
+
+
 
 export const colors = [
   { Amber: "#FFBF00" },

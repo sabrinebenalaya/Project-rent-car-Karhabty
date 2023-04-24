@@ -6,7 +6,7 @@ router.post("/review/", authMiddleware,reviewController.createReview);
 router.put("/review/:id", authMiddleware,reviewController.updateReview);
 router.delete("/review/:id",authMiddleware, reviewController.deleteReview);
 router.get("/review/:id", authMiddleware,reviewController.getReviewById);
-router.get("/review/", reviewController.getReviews);
+router.get("/allReviews", reviewController.getReviews);
 router.get("/reviewCar/:id",  reviewController.getReviewByCar)
 
 

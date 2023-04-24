@@ -97,7 +97,7 @@ function Footer() {
                           {/* single form */}
                         </div>
                         <div className="col-lg-12">
-                          <div className="single-form form-group">
+                           <div className="single-form form-group">
                             <textarea
                               name="message"
                               placeholder="Enter Your Message"

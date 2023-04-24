@@ -10,16 +10,20 @@ function CustomInput({
   handleChange,
   style,
 }) {
+  
   return (
-    <Form.Group className="mb-3" style={style}>
-      <h6>{titelFieald}</h6>
-      <Form.Control
+    <div className="single-form ">
+      <input
+      style= {style}
         type={type}
-        placeholder={placeholder}
         name={name}
+        placeholder={placeholder}
+        data-error="Name is required."
+        required="required"
         onChange={handleChange}
       />
-    </Form.Group>
+      <div className="help-block with-errors" />
+    </div>
   );
 }
 

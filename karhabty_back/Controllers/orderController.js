@@ -16,13 +16,10 @@ orderController.createPayement = async (req, res) => {
 
 // Create a new order
 orderController.createOrder = async (req, res) => {
-  
   try {
-    
-      const order = new Order(req.body);
-      await order.save();
-      res.status(201).json(order);
-    
+    const order = new Order(req.body);
+    await order.save();
+    res.status(201).json(order);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -32,9 +29,9 @@ orderController.createOrder = async (req, res) => {
 orderController.getAllOrder = async (req, res) => {
   try {
     const orders = await Order.find();
-    orders.length===0
+    orders.length === 0
       ? res.status(404).json({ message: "Orders not found" })
-      : res.status(200).json(orders)
+      : res.status(200).json(orders);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -83,7 +80,7 @@ orderController.updateOrder = async (req, res) => {
 orderController.getAllActiveOrde = async (req, res) => {
   try {
     const orders = await Order.find({ status: req.params.status });
-    orders.length===0
+    orders.length === 0
       ? res.status(404).json({ message: "Orders not found" })
       : res.status(200).json(orders);
   } catch (error) {
@@ -93,11 +90,24 @@ orderController.getAllActiveOrde = async (req, res) => {
 
 // Retrieve all the orders by User
 orderController.getOrderByUser = async (req, res) => {
-
   try {
-    const orders = await Order.find({user:req.params.id})
-   
-    orders.length===0
+    const orders = await Order.find({ user: req.params.id });
+
+    orders.length === 0
+      ? res.status(404).json({ message: "No Orders found, for you" })
+      : res.status(200).json(orders);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Retrieve all the orders by Agency
+orderController.getOrderByAgency = async (req, res) => {
+ 
+  try {
+    const orders = await Order.find({ agency: req.params.id });
+
+    orders.length === 0
       ? res.status(404).json({ message: "No Orders found, for you" })
       : res.status(200).json(orders);
   } catch (error) {

@@ -2,7 +2,8 @@ import React from 'react'
 import { Navigate } from 'react-router-dom'
 
 const ConnectedRoute = ({user, children}) =>{
-   if(!user.isConnected){
+  const token = localStorage.getItem("jwt")
+   if(!token){
      return <Navigate to="/login" replace/> 
    }
    return children

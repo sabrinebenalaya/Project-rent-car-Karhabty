@@ -41,33 +41,30 @@ export const circle = {
   borderWidth: "2px",
 };
 
-export const butonCircle ={
+export const butonCircle = {
   width: "35px",
   height: "35px",
-  top: "55px",
-  left: "-10px",
-  position: "relative",
-  backgroundColor:"#FBCCD2",
-  borderColor:"transparent",
-  border:"1px"
-         
-}
-export const iconPink ={
+  position: "absolute",
+  bottom: "5%",
+  right: "10%",
+  backgroundColor: "#FBCCD2",
+  borderColor: "transparent",
+  border: "1px",
+};
+export const iconPink = {
+  color: "#FBCCD2",
+  width: "25px",
+  height: "25px",
+};
 
-    color: "#FBCCD2",
-    width: "25px",
-    height: "25px",
- 
-}
+export const header_order = { ...flex_two_element, padding: "2%" };
+export const left_header_order = { padding: "4%" };
 
+export const body_order = { display: "flex", padding: "2%" };
 
-
-
-
-export const header_order ={...flex_two_element, padding:"2%"}
-export const left_header_order={padding:"4%"}
-
-export const body_order={display:"flex",padding:"2%"}
-
-export const rigth_footer_order={...flex_two_element, paddingRight: "15%", paddingTop:"5%"}
-export const strongText={fontWeight: 'bold', color: 'black'}
+export const rigth_footer_order = {
+  ...flex_two_element,
+  paddingRight: "15%",
+  paddingTop: "5%",
+};
+export const strongText = { fontWeight: "bold", color: "black" };

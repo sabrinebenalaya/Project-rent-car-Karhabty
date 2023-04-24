@@ -1,4 +1,4 @@
-import { GET_REVIEW_By_ID, GET_REVIEW_By_CAR } from "../constante";
+import { GET_REVIEW_By_ID, GET_REVIEW_By_CAR,GET_All_REVIEW } from "../constante";
 
 const initialState = { isloading: false, review: {}, reviews:[]};
 
@@ -10,6 +10,9 @@ const ReducerReview = (state = initialState, action) => {
     
     case GET_REVIEW_By_CAR:
     return {...state, isLoading: false, reviews: action.payload }
+    case GET_All_REVIEW:
+      return {...state, isLoading: false, reviews: action.payload }
+
     default:
       return state;
   }

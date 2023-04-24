@@ -1,40 +1,13 @@
 import React, { useEffect } from "react";
 import { MDBBadge } from "mdb-react-ui-kit";
-import { getOne } from "../../Redux/Actions/actionAnnoucement";
-import { useDispatch, useSelector } from "react-redux";
-import { AiFillStar } from "react-icons/ai";
-
-import { getCar } from "../../Redux/Actions/actionCars";
-import { getAgency } from "../../Redux/Actions/actionAgency";
-import { getReviewCar } from "../../Redux/Actions/actionRate";
+import { useDispatch } from "react-redux";
 import { strongText } from "../../Style/Style";
-function OrderItem({ order }) {
-
-  
-  //get annoucement information
-  const dispatch = useDispatch();
-  const annoucement = useSelector(
-    (state) => state.ReducerAnnoucement.annoucement
-  );
-  useEffect(() => {
-    dispatch(getOne(order.announcement));
-  }, [order.announcement, dispatch]);
-
-  useEffect(() => {
-    if (annoucement) {
-      Promise.all([
-        dispatch(getCar(annoucement.car)),
-        dispatch(getAgency(annoucement.agence)),
-        dispatch(getReviewCar(annoucement.car)),
-      ]);
-    }
-  }, [annoucement, dispatch]);
-
-  const car = useSelector((state) => state.ReducerCars.car);
-  const agency = useSelector((state) => state.ReducerAgency.agency);
-  const reviews = useSelector((state) => state.ReducerReview.reviews);
+import { isEmpty } from "../../Validator/isEmpty";
+import { AiFillStar } from 'react-icons/ai';
+function OrderItem({ order, role , agency, announcement, car, reviews}) {
 
 
+ 
 
   // cast the date of order
   function reverseString(str) {
@@ -43,7 +16,7 @@ function OrderItem({ order }) {
 
   let orderDate = reverseString(order.date.slice(0, 10));
 
-  //the calor of status
+  //the color of status
   let bgStatus = { color: "", class: "" };
   switch (order.status) {
     case "inactive": // order closed and car is return to the agency
@@ -75,7 +48,7 @@ function OrderItem({ order }) {
       <td>
         <div className="d-flex align-items-center">
           <img
-            src={annoucement.photo}
+            src={order.photo}
             alt="car"
             style={{ width: "100px", height: "100px" }}
           />
@@ -92,15 +65,9 @@ function OrderItem({ order }) {
         <MDBBadge color={bgStatus.color} style={{ marginTop: "10px" }}>
           {order.status}
         </MDBBadge>
-      </td>
-      <td>
-        {reviews.length === 0
-        ? 0
-        : reviews.reduce((total, review) => total + review.rating, 0) /
-          reviews.length}
-        /5
-        <AiFillStar />
-      </td>
+    
+     </td>
+    
     </tr>
   );
 }

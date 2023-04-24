@@ -14,6 +14,8 @@ import { MDBSwitch } from "mdb-react-ui-kit";
 import { isEmpty } from "../../Validator/isEmpty";
 import { addAnnoucement } from "../../Redux/Actions/actionAnnoucement";
 import { toast } from "react-toastify";
+import CustomButton from "../../Atom/CustomButton";
+
 function AddAnnoucement({ id }) {
   //get the list of cars
   const dispatch = useDispatch();
@@ -86,7 +88,6 @@ function AddAnnoucement({ id }) {
       stateAddress.country = parts[3];
       annoucement.address = stateAddress;
     }
-    
 
     if (isEmpty(startDate)) {
       SetAnnoucement({ ...annoucement, availableStartDate: startDate });
@@ -106,10 +107,9 @@ function AddAnnoucement({ id }) {
       SetAnnoucement({ ...annoucement, longitude: longitude });
     }
 
-
-    if (!isEmpty(annoucement)){
-      dispatch(addAnnoucement(annoucement))
-    }else{
+    if (!isEmpty(annoucement)) {
+      dispatch(addAnnoucement(annoucement));
+    } else {
       toast.error("All the information are empty");
     }
   };
@@ -150,6 +150,7 @@ function AddAnnoucement({ id }) {
               placeholder={"Tape the discription of your annoucement"}
               style={{ height: "100px" }}
               name="description"
+              data_error="Please,leave us a description."
               handleChange={handleChangeAnnoucement}
             />
           </p>
@@ -183,19 +184,18 @@ function AddAnnoucement({ id }) {
                 alignItems: "center",
               }}
             >
-            <Form.Select
-            size="lg"
-            onClick={handleCarSelect}
-            style={{ width: "100%", height: "45px" }}
-          >
-            {Array.isArray(cars) &&
-              cars.map((car, index) => (
-                <option key={index} value={car._id}>
-                  {car.brand}, {car.model}
-                </option>
-              ))}
-          </Form.Select>
-          
+              <Form.Select
+                size="lg"
+                onClick={handleCarSelect}
+                style={{ width: "100%", height: "45px" }}
+              >
+                {Array.isArray(cars) &&
+                  cars.map((car, index) => (
+                    <option key={index} value={car._id}>
+                      {car.brand}, {car.model}
+                    </option>
+                  ))}
+              </Form.Select>
             </div>
 
             <div
@@ -218,12 +218,7 @@ function AddAnnoucement({ id }) {
           </div>
 
           <div style={{ marginTop: "2%" }}>
-            <Button
-              className="btn btn-warning btn-lg ms-2 "
-              onClick={handleShow}
-            >
-              Add a new Car
-            </Button>
+            <CustomButton handleClick={handleShow} title="Add a new Car" />
 
             <CustomModal
               modalTitle="Add New Car"
@@ -239,19 +234,19 @@ function AddAnnoucement({ id }) {
           <div style={flex_two_element}>
             <CustomInput
               titelFieald={"Price:"}
-              placeholder={"Tape the price by day"}
+              placeholder={"Tape the price in DNT by day "}
               name={"price"}
               handleChange={handleChangeAnnoucement}
+              style={{ width: "33vh" }}
             />
-            Dnt
+
             <CustomInput
               titelFieald={" Security deposit :"}
-              placeholder={"Tape the security deposit of your annoucement"}
+              placeholder={"Tape the security deposit in DNT "}
               name={"securityDeposit"}
               handleChange={handleChangeAnnoucement}
-              style={{ width: "50vh", marginRight: "20px" }}
-            />{" "}
-            Dnt
+              style={{ width: "35vh", marginRight: "20px" }}
+            />
           </div>
           <hr style={{ marginTop: "2%" }} />
           <div style={flex_two_element}>
@@ -264,8 +259,8 @@ function AddAnnoucement({ id }) {
             >
               <h6>Choise the available period :</h6>
             </div>
-            <div style={{ marginRight: "20px" }}>
-              {" "}
+            <div style={{ marginRight: "20px", marginBottom:"2%" }}>
+           
               <DatePicker
                 selected={startDate}
                 onChange={handleDateChange}
@@ -281,6 +276,7 @@ function AddAnnoucement({ id }) {
                 selectsStart
                 disabledKeyboardNavigation
                 todayButton="Today"
+                dateFormat="dd/MM/yyyy"
                 renderCustomHeader={({
                   date,
                   decreaseMonth,
@@ -301,26 +297,12 @@ function AddAnnoucement({ id }) {
               />
             </div>
           </div>
-
-          <div
-            style={{
-              marginTop: "2%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <button type="button" className="btn btn-light btn-lg">
-              Reset all
-            </button>
-            <button
-              type="button"
-              className="btn btn-warning btn-lg "
-              style={{ backgroundColor: "#e83e8c", marginLeft: "5" }}
-              onClick={handelAddAnnoucement}
-            >
-              Add annoucement
-            </button>
+          <div style={{ margin: "auto", textAlign: "center" }}>
+            <CustomButton
+              handleClick={handelAddAnnoucement}
+              title=" Add annoucement"
+              style={{ margin: "2%" }}
+            />
           </div>
         </Accordion.Body>
       </Accordion.Item>

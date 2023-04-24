@@ -2,17 +2,19 @@ import React from 'react'
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 
-function CustomTextarea({label,name, placeholder, style, controlId,handleChange}) {
+function CustomTextarea({label,name, placeholder, style, controlId,handleChange,data_error}) {
   return (
-    <FloatingLabel controlId={controlId} label={label}>
-      <Form.Control
-      as="textarea"
+    <div className="single-form form-group">
+    <textarea
+      name={name}
       placeholder={placeholder}
-      style={style}
-     onChange={handleChange} 
-     name={name}
+      data-error={data_error}
+      required="required"
+      defaultValue={""}
+      onChange={handleChange}
     />
-  </FloatingLabel>
+    <div className="help-block with-errors" />
+  </div>
   )
 }
 

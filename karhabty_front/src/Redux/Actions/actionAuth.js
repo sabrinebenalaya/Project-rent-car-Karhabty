@@ -25,7 +25,9 @@ export const logIn = (userInfo, navigate) => async (dispatch) => {
 
       const { token, user } = res.data;
       localStorage.setItem("jwt", token);
-
+      localStorage.setItem("idUser", user._id);
+      localStorage.setItem("role", user.roleUser);
+      localStorage.setItem("username", user.username);
       dispatch({ type: LOGIN_SUCCESS, payload: { token, user } });
       isAuth(token);
       navigate("/");

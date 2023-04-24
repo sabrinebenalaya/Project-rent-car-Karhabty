@@ -10,9 +10,19 @@ const orderSchema = mongoose.Schema({
     endDate: { type: Date, default: Date.now },
   },
   date: { type: Date, default: Date.now },
-  paymentMethod: { type: mongoose.Schema.Types.ObjectId, ref: "Payment", required: true }
-
-}); 
-
+  paymentMethod: { type: mongoose.Schema.Types.ObjectId, ref: "Payment", required: true },
+  agency:{ type: mongoose.Schema.Types.ObjectId},
+  photo: { type: String }
+});  
+orderSchema.pre("save", async function (next) {
+  try {
+    const announcement = await mongoose.model("Announcement").findById(this.announcement); 
+    this.agency = announcement.agence;
+    this.photo= announcement.photo;
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = mongoose.model("Order", orderSchema);
 

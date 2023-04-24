@@ -22,10 +22,15 @@ import ConnectedRoute from "./Routes/ConnectedRoute";
 import AddAnnoucement from "./Components/listOfAnnoucement/AddAnnoucement";
 import AgencyRoute from "./Routes/AgencyRoute";
 import EditAnnoucement from "./Components/listOfAnnoucement/EditAnnoucement";
+import ListOrderAgency from "./Components/order/ListOrderAgency";
 
 function App() {
   const auth = useSelector((state) => state.ReducerAuth);
-
+  const token = localStorage.getItem("jwt")
+const id = localStorage.getItem("idUser")
+const role = localStorage.getItem("role")
+const username = localStorage.getItem("username")
+ console.log("id in localstorge", id)
   const user = {
     isConnected: auth.isAuthenticated,
     role: !isEmpty(auth.user) ? auth.user.roleUser : null,
@@ -36,11 +41,11 @@ function App() {
     <>
       <ToastContainer />
       <BrowserRouter>
-        {user.isConnected ? (
+        {token? (
           <CustomNavBarUser
-            id={user.id}
-            username={auth.user.username}
-            role={user.role}
+            id={id}
+            username={username}
+            role={role}
           />
         ) : (
           <Header />
@@ -65,11 +70,19 @@ function App() {
             />
 
             <Route
-              path="profil/orders"
+              path="orders"
               element={
-                <UserRoute user={user}>
-                  <ListOfOrder idUser={user.id} />
-                </UserRoute>
+                <ConnectedRoute user={user}>
+                  <ListOfOrder idUser={id}  /> 
+                </ConnectedRoute>
+              }
+            />
+             <Route
+              path="ordersAgency"
+              element={
+                <ConnectedRoute user={user}>
+                  <ListOrderAgency idUser={id}  /> 
+                </ConnectedRoute>
               }
             />
             <Route
@@ -84,8 +97,8 @@ function App() {
             <Route
               path="AddAnnoucement"
               element={
-                <AgencyRoute user={user} >
-                  <AddAnnoucement id={user.id} />
+                <AgencyRoute user={user} role={role} >
+                  <AddAnnoucement id={id} />
                 </AgencyRoute>
               }
             />
@@ -100,8 +113,8 @@ function App() {
             <Route
               path="editAnnoucement/:id"
               element={
-                <AgencyRoute user={user}>
-                  <EditAnnoucement id={user.id} />
+                <AgencyRoute user={user} role={role}>
+                  <EditAnnoucement id={id} />
                 </AgencyRoute>
               }
             />

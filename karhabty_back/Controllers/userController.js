@@ -2,12 +2,37 @@ const User = require("../Models/user");
 const bcrypt = require("bcryptjs");
 const isEmpty = require("../Validator/isEmpty");
 
+const path = require('path');
 const userController = {};
+
+//update photo user
+userController.updatePhoto =async(req, res)=>{
+
+
+
+  try {
+    const {id}=req.params
+    const imagePath = req.file.path.replace(/\\/g, "/");
+   const photoPath =`http://localhost:${process.env.PORT}/karhabtyUser/${imagePath}` 
+   
+      
+    const user = await User.findByIdAndUpdate(id,{$set:{photo: photoPath}});
+    user
+    ? res.status(200).json(user)
+    : res.status(404).json({ message: "User not found ⚠️" });
+    
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("something went Wrong ⛔");
+  }
+}
+
 
 //GET ALL USER
 userController.getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
+  
     users
       ? res.status(200).json(users)
       : res.status(404).json({ message: "Users not found" });
@@ -19,10 +44,8 @@ userController.getAllUsers = async (req, res) => {
 // GET ALL BY ROLE
 userController.getAllByRole = async (req, res) => {
   const { role } = req.params;
-  console.log(role);
   try {
     const users = await User.find({ roleUser: role });
-    console.log({ users });
     users
       ? res.status(200).json(users)
       : res.status(404).json({ message: "Users not found" });

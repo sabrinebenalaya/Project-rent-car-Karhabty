@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { logOut } from "../../Redux/Actions/actionAuth";
 import { useDispatch } from "react-redux";
 function CustomNavBarUser({ id, username, role }) {
+  console.log("id of user loged", id, "role= ", role, "user name=", username);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   return (
@@ -16,15 +17,21 @@ function CustomNavBarUser({ id, username, role }) {
         backgroundColor: "#fffaf6",
       }}
     >
-      {role === "Agency" ? (
-        <Link style={{ color: "red" }} to="/">
-          Annoucements
-        </Link>
-      ) : (
-        <Link style={{ color: "red" }} to="/profil/orders">
-          Orders
-        </Link>
+      {role === "Agency" && (
+        <>
+          <Link style={{ color: "red" }} to="/">
+            Annoucements
+          </Link>
+
+          <Link style={{ color: "red" }} to="ordersAgency">
+            Orders 
+          </Link>
+        </>
       )}
+      {role == "User" && (<Link style={{ color: "red" }} to="orders">
+        Orders
+      </Link>)}
+      
 
       <div style={{ display: "flex", alignItems: "center" }}>
         <Link to="profil/" style={{ marginRight: "10px", color: "red" }}>

@@ -15,6 +15,7 @@ reviewController.createReview = async (req, res) => {
 reviewController.getReviews = async (req, res) => {
   try {
     const reviews = await Review.find();
+
     !reviews
       ? res.status(404).json({ message: "Review not found" })
       : res.status(200).json(reviews);
