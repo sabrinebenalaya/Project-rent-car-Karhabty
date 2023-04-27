@@ -17,6 +17,7 @@ announcementController.createAnnouncement = async (req, res) => {
 announcementController.getAllAnnouncements = async (req, res) => {
   try {
     const announcements = await Announcement.find();
+    console.log(announcements)
     announcements
       ? res.status(200).json(announcements)
       : res.status(404).json({ message: "Announcements not found" });
@@ -29,7 +30,7 @@ announcementController.getAllAnnouncements = async (req, res) => {
 announcementController.getAllActiveAnnouncements = async (req, res) => {
   try {
     const announcements = await Announcement.find({status:"active"});
-    
+   
     announcements
       ? res.status(200).json(announcements)
       : res.status(404).json({ message: "Announcements not found" });

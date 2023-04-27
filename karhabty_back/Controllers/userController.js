@@ -75,6 +75,7 @@ userController.getAgency = async (req, res) => {
 userController.getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
+    
     user
       ? res.status(200).json(user)
       : res.status(404).json({ message: "User not found" });

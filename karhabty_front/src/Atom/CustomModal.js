@@ -13,6 +13,8 @@ import { validatorPhone } from "../Validator/validatorPhone";
 import validator from "validator";
 import { validatorName } from "../Validator/validatorName";
 import AddCar from "../Components/car/AddCar";
+import { getOne, updateAnnoucement } from "../Redux/Actions/actionAnnoucement";
+import CustomTextarea from "./CustomTextarea";
 function CustomModal({
   modalTitle,
   titelFieald,
@@ -26,6 +28,7 @@ function CustomModal({
   handleClose,
   id,
   adress,
+  type,
 }) {
   //set the Adress
   const [adressState, SetAdressState] = useState({});
@@ -56,11 +59,22 @@ function CustomModal({
   // save the data and agencyName
   const [text, setText] = useState("");
   const [attribut, setAttribut] = useState("");
+  const [start, setStart] = useState("");
+  const [end, setEnd] = useState("");
   const handleChangeState = (e) => {
     setText(e.target.value);
     setAttribut(e.target.name);
   };
 
+  const handelChangeStarDate = (date, name) => {
+    setAttribut(name);
+    setStart(date);
+  };
+  const handelChangeEndDate = (date, name) => {
+  
+    setAttribut(name);
+    setEnd(date);
+  };
   const dispatch = useDispatch();
 
   const save = (e) => {
@@ -119,7 +133,7 @@ function CustomModal({
       }
     }
 
-    if (attribut === "birthDate" || attribut === "agencyName") { 
+    if (attribut === "birthDate" || attribut === "agencyName") {
       if (attribut === "agencyName") {
         if (!validator.isLength(text.trim(), { min: 1 })) {
           toast.error("The agencyName must have at least 1 letter.");
@@ -134,6 +148,28 @@ function CustomModal({
         dispatch(getUser(id));
       }
     }
+    if (
+      attribut === "description" ||
+      attribut === "titre" ||
+      attribut === "price" ||
+      attribut === "securityDeposit" 
+     
+    ) {
+      dispatch(updateAnnoucement({ [attribut]: text }, id));
+      handleClose();
+      dispatch(getOne(id));
+    }
+
+    if( attribut === "availableStartDate"){
+      dispatch(updateAnnoucement({ [attribut]: start }, id));
+      handleClose();
+      dispatch(getOne(id));
+    }
+    if( attribut === "availableEndDate"){
+      dispatch(updateAnnoucement({ [attribut]: end }, id));
+      handleClose();
+      dispatch(getOne(id));
+    }
   };
 
   return (
@@ -142,6 +178,62 @@ function CustomModal({
         <Modal.Title>{modalTitle}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {modalTitle === "The Deescription of annoucement" && (
+          <CustomTextarea
+            titelFieald={titelFieald}
+            placeholder={placeholder}
+            name={name}
+            handleChange={handleChangeState}
+          />
+        )}
+
+        {modalTitle === "The Title of annoucement" && (
+          <CustomInput
+            titelFieald={titelFieald}
+            placeholder={placeholder}
+            name={name}
+            handleChange={handleChangeState}
+          />
+        )}
+        {modalTitle === "The Price By Day" && (
+          <CustomInput
+            titelFieald={titelFieald}
+            placeholder={placeholder}
+            name={name}
+            type={type}
+            handleChange={handleChangeState}
+          />
+        )}
+
+        {modalTitle === "The Security Deposit of this car" && (
+          <CustomInput
+            titelFieald={titelFieald}
+            placeholder={placeholder}
+            name={name}
+            type={type}
+            handleChange={handleChangeState}
+          />
+        )}
+
+        {modalTitle === "The AvailableStartDate of this car" && (
+          <DatePicker
+            selected={start ? new Date(start) : null}
+            dateFormat="yyyy-MM-dd"
+            placeholderText="Select a date"
+            onChange={(date) => handelChangeStarDate(date, name)}
+            name={name}
+          />
+        )}
+        {modalTitle === "The AvailableEndDate of this car" && (
+          <DatePicker
+            selected={end ? new Date(end) : null}
+            dateFormat="yyyy-MM-dd"
+            placeholderText="Select a date"
+            onChange={(date) => handelChangeEndDate(date, name)}
+            name={name}
+          />
+        )}
+
         {modalTitle === "Your Phone number" && (
           <CustomInput
             titelFieald={titelFieald}
@@ -150,10 +242,7 @@ function CustomModal({
             handleChange={handleChangeState}
           />
         )}
-        {modalTitle === "Add New Car" && (
-         
-          <AddCar handleClose={handleClose}/>
-        )}
+        {modalTitle === "Add New Car" && <AddCar handleClose={handleClose} />}
         {modalTitle === "Your Name" && (
           <>
             <CustomInput
@@ -244,18 +333,20 @@ function CustomModal({
           </>
         )}
       </Modal.Body>
-    {modalTitle !== "Add New Car"&&(<Modal.Footer>
-      <CustomButton
-        variant={variantClose}
-        title={titleClose}
-        handleClick={handleClose}
-      />
-      <CustomButton
-        variant={variantSave}
-        title={titleSave}
-        handleClick={save}
-      />
-    </Modal.Footer>)}  
+      {modalTitle !== "Add New Car" && (
+        <Modal.Footer>
+          <CustomButton
+            variant={variantClose}
+            title={titleClose}
+            handleClick={handleClose}
+          />
+          <CustomButton
+            variant={variantSave}
+            title={titleSave}
+            handleClick={save}
+          />
+        </Modal.Footer>
+      )}
     </Modal>
   );
 }

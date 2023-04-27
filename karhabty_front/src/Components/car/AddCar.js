@@ -6,21 +6,52 @@ import Accordion from "react-bootstrap/Accordion";
 import { useDispatch } from "react-redux";
 import { addCar, getAllCars } from "../../Redux/Actions/actionCars";
 function AddCar({handleClose}) {
-  const [newCar, SetNewCar] = useState({});
-  const dispatch = useDispatch();
-  const handleChangeCar = (event) => {
-    event.target.name === "color"
-      ? SetNewCar({ ...newCar, color: event.target.value})
-      : SetNewCar({ ...newCar, [event.target.name]: event.target.value });
-  };
+  
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    dispatch(addCar(newCar));
-    dispatch(getAllCars());
-   
-    handleClose()
-  };
+
+const [newCar, setNewCar] = useState({});
+const dispatch = useDispatch();
+const [file, setFile] = useState(null);
+
+const handleFileInputChange = (event) => {
+  const selectedFile = event.target.files[0];
+  setFile(selectedFile);
+};
+
+const handleChangeCar = (event) => {
+  const { name, value } = event.target;
+  setNewCar({ ...newCar, [name]: value });
+  
+};
+
+const handleSubmit = (event) => {
+  event.preventDefault();
+  
+  // Créer une nouvelle instance de FormData
+  const formData = new FormData();
+  // Ajouter la photo à la FormData si elle est présente
+  if (file) {
+    formData.append("image", file);
+  }
+  
+  // Ajouter les autres informations de la voiture à la FormData
+  for (const key in newCar) {
+    if (newCar.hasOwnProperty(key)) {
+      formData.append(key, newCar[key]);
+     
+
+    }
+  }
+  // Envoyer la FormData au serveur en utilisant l'action addCar()
+  dispatch(addCar(formData));
+  
+  // Mettre à jour la liste des voitures en appelant l'action getAllCars()
+  dispatch(getAllCars());
+  
+  // Fermer le formulaire
+  handleClose();
+};
+
   return (
     <>
       <div>
@@ -46,6 +77,21 @@ function AddCar({handleClose}) {
                   name="model"
                   handleChange={handleChangeCar}
                 />
+              </div>
+
+              <div className="form-outline mb-4">
+             
+                        <label class="-label" for="file" style={{marginRight:"20px"}}>
+                          
+                           Photo car  
+                        </label>
+                        <input
+                          id="file"
+                          type="file"
+                          onChange={handleFileInputChange}
+                        />
+             
+                  
               </div>
               <div className="form-outline mb-4">
                 <select

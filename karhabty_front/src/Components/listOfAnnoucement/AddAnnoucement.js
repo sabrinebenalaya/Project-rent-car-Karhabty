@@ -4,10 +4,9 @@ import { getAllCars } from "../../Redux/Actions/actionCars";
 import Accordion from "react-bootstrap/Accordion";
 import CustomInput from "./../../Atom/CustomInput";
 import CustomTextarea from "../../Atom/CustomTextarea";
-import DatePicker from "react-datepicker";
+
 import Form from "react-bootstrap/Form";
 import { flex_two_element } from "./../../Style/Style";
-import Button from "react-bootstrap/Button";
 import CustomModal from "../../Atom/CustomModal";
 import { getUser } from "../../Redux/Actions/actionUser";
 import { MDBSwitch } from "mdb-react-ui-kit";
@@ -16,120 +15,79 @@ import { addAnnoucement } from "../../Redux/Actions/actionAnnoucement";
 import { toast } from "react-toastify";
 import CustomButton from "../../Atom/CustomButton";
 
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useNavigate } from "react-router";
+
 function AddAnnoucement({ id }) {
-  //get the list of cars
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  //agency and car information
   useEffect(() => {
+    dispatch(getUser(id));
     dispatch(getAllCars());
-  }, [dispatch]);
+  }, [id, dispatch]);
   const cars = useSelector((state) => state.ReducerCars.cars);
+ const agency = useSelector((state) => state.ReducerUser.user);
+  const agencyAdress = agency.address;
 
-  //get the image of the car
+  ///cars////
+ 
+  //get the image of the car (affichage de l'image de la voiture selctionné)
   const [selectedCarPath, setSelectedCarPath] = useState("");
-
   function handleCarSelect(event) {
     const selectedCar = cars.find((car) => car._id === event.target.value);
     setSelectedCarPath(selectedCar.photo);
     SetAnnoucement({ ...annoucement, car: event.target.value });
   }
 
-  //set the date
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  /// anouncement////
+  // state annoucement
+  const [annoucement, SetAnnoucement] = useState({
+    agence: id,
+    longitude: 125,
+    latitude: 2569,
+    address: agencyAdress,
+    availableStartDate: null,
+    availableEndDate: null
+  });
 
-  const handleDateChange = (dates) => {
-    console.log({ dates });
-    const [start, end] = dates;
-    setStartDate(start);
-    setEndDate(end);
+
+  //remplissage du state
+  //state de dates
+
+  const handleChangeAnnoucement = (event) => {
+    const { name, value } = event.target;
+
+    if (name === "status") {
+      if (event.target.checked) {
+        SetAnnoucement({ ...annoucement, [name]: "Active" });
+      } else {
+        SetAnnoucement({ ...annoucement, [name]: "Inactive" });
+      }
+    }  else {
+      SetAnnoucement({ ...annoucement, [name]: value });
+    }
+    
   };
+  
 
-  const selectionRange = {
-    startDate: startDate,
-    endDate: endDate,
-    key: "selection",
+  // envoi du state à l'action
+  const handelAddAnnoucement = (e) => {
+    e.preventDefault();
+    
+    if (!isEmpty(annoucement)) {
+      dispatch(addAnnoucement(annoucement, navigate));
+    } else {
+      toast.error("les champs sont vides");
+    }
   };
 
   //set modal for adding a car
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  const [annoucement, SetAnnoucement] = useState({});
-
-  const handleChangeAnnoucement = (e) => {
-    ///set state for the adress
-    if (e.target.name === "status") {
-      if (e.target.checked) {
-        SetAnnoucement({ ...annoucement, [e.target.name]: "Active" });
-      } else {
-        SetAnnoucement({ ...annoucement, [e.target.name]: "Inactive" });
-      }
-    } else {
-      SetAnnoucement({ ...annoucement, [e.target.name]: e.target.value });
-    }
-  };
-
-  // get altitude et langetitude from adresse (string)
-  const latitude = 53;
-  const longitude = 10;
-
-  // add annoucement
-  const handelAddAnnoucement = (e) => {
-    e.preventDefault();
-
-    if (annoucement && typeof annoucement.address === "string") {
-      const stateAddress = {};
-      const parts = annoucement.address.split(",");
-      stateAddress.city = parts[0];
-      stateAddress.governorate = parts[1];
-      stateAddress.postalCode = parts[2];
-      stateAddress.country = parts[3];
-      annoucement.address = stateAddress;
-    }
-
-    if (isEmpty(startDate)) {
-      SetAnnoucement({ ...annoucement, availableStartDate: startDate });
-    } else {
-      console.log("prob");
-    }
-    if (isEmpty(endDate)) {
-      SetAnnoucement({ ...annoucement, availableEndDate: endDate });
-    }
-    if (!isEmpty(latitude)) {
-      SetAnnoucement({ ...annoucement, latitude: latitude });
-    } else {
-      console.log("laltitude", latitude);
-    }
-
-    if (!isEmpty(longitude)) {
-      SetAnnoucement({ ...annoucement, longitude: longitude });
-    }
-
-    if (!isEmpty(annoucement)) {
-      dispatch(addAnnoucement(annoucement));
-    } else {
-      toast.error("All the information are empty");
-    }
-  };
-  console.log("anoucement", annoucement);
-
-  //get agency information
-  useEffect(() => {
-    dispatch(getUser(id));
-  }, [id, dispatch]);
-
-  const agency = useSelector((state) => state.ReducerUser.user);
-
-  const agencyAdress =
-    agency.address.city +
-    "," +
-    agency.address.governorate +
-    "," +
-    agency.address.postalCode +
-    "," +
-    agency.address.country;
 
   return (
     <Accordion defaultActiveKey="0" className="container">
@@ -160,14 +118,6 @@ function AddAnnoucement({ id }) {
               label="Status of the annoucement"
               name="status"
               onClick={handleChangeAnnoucement}
-            />
-          </p>
-          <p>
-            <CustomInput
-              titelFieald={"Adress of the Agency :"}
-              placeholder={agencyAdress}
-              name={"address"}
-              handleChange={handleChangeAnnoucement}
             />
           </p>
         </Accordion.Body>
@@ -259,47 +209,27 @@ function AddAnnoucement({ id }) {
             >
               <h6>Choise the available period :</h6>
             </div>
-            <div style={{ marginRight: "20px", marginBottom:"2%" }}>
-           
-              <DatePicker
-                selected={startDate}
-                onChange={handleDateChange}
-                startDate={startDate}
-                endDate={endDate}
-                selectsRange
-                inline
-                minDate={new Date()}
-                monthsShown={1}
-                showMonthDropdown
-                showYearDropdown
-                dropdownMode="select"
-                selectsStart
-                disabledKeyboardNavigation
-                todayButton="Today"
-                dateFormat="dd/MM/yyyy"
-                renderCustomHeader={({
-                  date,
-                  decreaseMonth,
-                  increaseMonth,
-                }) => (
-                  <div>
-                    <button onClick={decreaseMonth}>{"<"}</button>
-                    <span>
-                      {new Intl.DateTimeFormat("en-US", {
-                        month: "long",
-                        year: "numeric",
-                      }).format(date)}
-                    </span>
-                    <button onClick={increaseMonth}>{">"}</button>
-                  </div>
-                )}
-                ranges={[selectionRange]}
-              />
+            <div style={{ marginRight: "20px", marginBottom: "2%" }}>
+            <DatePicker
+  selected={annoucement.availableStartDate ? new Date(annoucement.availableStartDate) : null}
+  dateFormat="yyyy-MM-dd"
+  placeholderText="Select a date"
+  name="availableStartDate"
+  onChange={(date) =>SetAnnoucement({ ...annoucement, availableStartDate: date })}
+/>
+
+<DatePicker
+  selected={annoucement.availableEndDate ? new Date(annoucement.availableEndDate) : null}
+  dateFormat="yyyy-MM-dd"
+  placeholderText="Select a date"
+  name="availableEndDate"
+  onChange={(date) => SetAnnoucement({ ...annoucement, availableEndDate: date })}
+/>
             </div>
           </div>
           <div style={{ margin: "auto", textAlign: "center" }}>
             <CustomButton
-              handleClick={handelAddAnnoucement}
+              handleClick={(e) => handelAddAnnoucement(e)}
               title=" Add annoucement"
               style={{ margin: "2%" }}
             />

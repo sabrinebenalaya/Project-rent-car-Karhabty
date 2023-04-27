@@ -7,8 +7,8 @@ router.post("/announcement/", announcementController.createAnnouncement);
 router.put("/announcement/:id",authMiddleware, announcementController.updateAnnouncement);
 router.delete("/announcement/:id",authMiddleware, announcementController.deleteAnnouncement);
 router.get("/announcement/:id", announcementController.getAnnouncementById);
-router.get("/announcement/",authMiddleware, announcementController.getAllAnnouncements);
+router.get("/announcement/", announcementController.getAllAnnouncements);
 router.get("/activeAnnouncement", announcementController.getAllActiveAnnouncements);
-router.get("/allAnnouncement/:id",authMiddleware, announcementController.getAllAnnouncementsByAgency);
+router.get("/allAnnouncement/:id", announcementController.getAllAnnouncementsByAgency);
 
 module.exports = router;

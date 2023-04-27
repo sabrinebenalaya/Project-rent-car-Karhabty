@@ -2,8 +2,8 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { logOut } from "../../Redux/Actions/actionAuth";
 import { useDispatch } from "react-redux";
-function CustomNavBarUser({ id, username, role }) {
-  console.log("id of user loged", id, "role= ", role, "user name=", username);
+function CustomNavBarUser({  username, role }) {
+ 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   return (

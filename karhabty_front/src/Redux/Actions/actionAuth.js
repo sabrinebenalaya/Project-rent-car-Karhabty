@@ -93,6 +93,8 @@ export const logOut = (navigate) => async (dispatch) => {
  
   try {
     localStorage.removeItem('jwt')
+    localStorage.removeItem('role')
+    localStorage.removeItem('id')
     dispatch({
         type: LOGOUT,
         payload: {}

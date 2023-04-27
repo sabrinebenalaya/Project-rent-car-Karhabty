@@ -55,6 +55,7 @@ export const getCar = (id) => async (dispatch) => {
   }
 };
 
+/*
 export const addCar =(newcar)=> async (dispatch) => {
   console.log("car", newcar)
 try {
@@ -66,7 +67,18 @@ try {
   console.log(error);
 }
 
+};*/
+export const addCar = (formData) => async (dispatch) => {
+  console.log("car", formData)
+  try {
+    const response = await postInApi(Url_add_car, formData);
+    dispatch({ type: ADD_CAR, payload: response.data.car });
+   
+  } catch (error) {
+    console.log(error);
+  }
 };
+
 
 export const updateCar = async () => {
   return { type: "UPDATE_CAR" };

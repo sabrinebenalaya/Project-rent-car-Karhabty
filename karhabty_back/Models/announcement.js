@@ -3,31 +3,30 @@ const announcementSchema = mongoose.Schema({
   price: { required: true, type: Number },
   securityDeposit: { required: true, type: Number },
   latitude: {
-    type: Number,
-    required: true,
+    type: Number, required: true
   },
   longitude: {
-    type: Number,
-    required: true,
+    type: Number, required: true
   },
   address: {
-    type: String,
-    required: true,
+    city: { type: String, required: false },
+    governorate: { type: String, required: false },
+    country: { type: String, required: false },
+    postalCode: { type: String, required: false },
   },
   status: { type: String, enum: ["Active", "Inactive"], required: true },
   titre: { type: String, required: true },
   description: { required: true, type: String },
-  availableStartDate: { type: Date},
+  availableStartDate: { type: Date },
 
-  availableEndDate: { type: Date },
+  availableEndDate: { type: Date   },
 
   car: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Car",
-    required: true,
-    unique: true,
+    required: true
   },
-  agence: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  agence: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
  
   photo: { type: String },
   color: { type: String },

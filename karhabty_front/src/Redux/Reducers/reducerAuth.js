@@ -29,7 +29,7 @@ const ReducerAuth = (state = initialState, action) => {
         ...state,
         isAuthenticated: false,
         token: null,
-        user: action.payload.user,
+        user: null,
       };
     default:
       return state;

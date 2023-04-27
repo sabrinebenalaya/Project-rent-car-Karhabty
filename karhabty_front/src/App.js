@@ -55,7 +55,7 @@ const username = localStorage.getItem("username")
           <Route path="/" element={<Layout />}>
             <Route
               index
-              element={<ListOfAnnouncements id={user.id} role={user.role} />}
+              element={<ListOfAnnouncements id={id} role={role} />}
             />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
@@ -95,18 +95,18 @@ const username = localStorage.getItem("username")
             />
            
             <Route
-              path="AddAnnoucement"
+              path="AddAnnoucement" 
               element={
-                <AgencyRoute user={user} role={role} >
-                  <AddAnnoucement id={id} />
-                </AgencyRoute>
+                <AgencyRoute user={user}><AddAnnoucement id={id} /></AgencyRoute>
+                  
+               
               }
             />
             <Route
               path="annoucement/:id"
               element={
                 <ConnectedRoute user={user}>
-                  <DetailAnnoucement role={user.role} />
+                  <DetailAnnoucement />
                 </ConnectedRoute>
               }
             />

@@ -1,16 +1,29 @@
 const Car = require("../Models/car");
-
 const carController = {};
 
 // CREATE
 
-carController.createCar = async (req, res) => {
-  try {
-    const newcar = req.body;
-    const car = new Car(newcar);
-    await car.save();
 
-    res.status(201).json({ message: "Car created successfully", car });
+carController.createCar = async (req, res) => {
+  const newcar = req.body;
+   
+  try {
+    
+
+    const car = new Car(newcar);
+    
+
+    imagePath = "http://localhost:5000/karhabtyCar/" + req.file.path.replace(/\\/g, "/")
+    
+    car.photo =imagePath;
+   
+
+    const carnew = await new Car(car);
+    
+    carnew.save();
+
+    res.status(200).send(" user added Successfully");
+    
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

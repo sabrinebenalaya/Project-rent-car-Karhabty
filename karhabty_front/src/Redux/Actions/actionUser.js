@@ -16,6 +16,7 @@ import {
 import { toast } from "react-toastify";
 import axios from "axios";
 import { isEmpty } from "../../Validator/isEmpty";
+import { isAuth } from "../../Middleware/isAuth";
 export const addUser = async (user) => {
   return { type: ADD_USER, payload: user };
 };
@@ -55,6 +56,7 @@ export const deleteUser = async () => {
 };
 
 export const getUser = (id) => async (dispatch) => {
+
   try {
     const user = await getFromApi(`${Url_get_user_ById}${id}`);
 
