@@ -1,37 +1,36 @@
 
 import { useDispatch, useSelector } from "react-redux";
-import ReducerAnnoucement from "../Redux/Reducers/reducerAnoucement"
 import { useState, useEffect } from "react";
-import {search} from "../Redux/Actions/actionCars"
-import { getAll } from './../Redux/Actions/actionAnnoucement';
+import { getAll, getAllByAgency, searchAnnoucement } from './../Redux/Actions/actionAnnoucement';
+import { getAllAgency } from "../Redux/Actions/actionAgency";
+import { useNavigate } from "react-router";
 
 
 export const useAnnoucement = () => {
   const dispatch = useDispatch();
-  
-
+  const id = localStorage.getItem("idUser");
+  const role = localStorage.getItem("role");
+const navigate = useNavigate()
  
  //get list of cars
-  useEffect(() => {
-    
-    dispatch (getAll());
-    
-  }, []);
-  const list = useSelector((state)=> state.ReducerAnnoucement.announcements)
+ useEffect(() => {
+  dispatch(getAllAgency("Agency"));
+  if (role === "Agency") {
+    dispatch(getAllByAgency(id));
+  } else {
+    dispatch(getAll());
+  } 
+}, [id, role, dispatch]);
 
+ 
   //search
-  const [searchInput, setSearchInput] = useState({
-    min: 0,
-    max: 0,
-    brand: "",
-    adress: "",
-  });
+  const [announcement, setAnnouncement] = useState({});
  
-  const handleSubmit = (e) => {
-     e.preventDefault();
-     dispatch(search(searchInput));
+  const handleSubmit = () => {
+     dispatch(searchAnnoucement(announcement,navigate));
   };
+  const listofAnnouncement = useSelector((state)=> state.ReducerAnnoucement.announcements)
 
- 
-  return {setSearchInput, searchInput, handleSubmit, list };
+
+  return {setAnnouncement, announcement, handleSubmit, listofAnnouncement };
 };

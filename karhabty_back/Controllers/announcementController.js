@@ -1,4 +1,5 @@
 const Announcement = require("../Models/announcement");
+const isEmpty = require("../Validator/isEmpty");
 
 const announcementController = {};
 
@@ -17,7 +18,7 @@ announcementController.createAnnouncement = async (req, res) => {
 announcementController.getAllAnnouncements = async (req, res) => {
   try {
     const announcements = await Announcement.find();
-    
+
     announcements
       ? res.status(200).json(announcements)
       : res.status(404).json({ message: "Announcements not found" });
@@ -29,8 +30,8 @@ announcementController.getAllAnnouncements = async (req, res) => {
 // Retrieve all active announcements
 announcementController.getAllActiveAnnouncements = async (req, res) => {
   try {
-    const announcements = await Announcement.find({status:"active"});
-   
+    const announcements = await Announcement.find({ status: "active" });
+
     announcements
       ? res.status(200).json(announcements)
       : res.status(404).json({ message: "Announcements not found" });
@@ -42,18 +43,16 @@ announcementController.getAllActiveAnnouncements = async (req, res) => {
 // Retrieve all active announcements by Agency
 announcementController.getAllAnnouncementsByAgency = async (req, res) => {
   try {
-    const announcements = await Announcement.find({ agence:req.params.id});
-    
+    const announcements = await Announcement.find({ agence: req.params.id });
+
     if (!announcements) {
       return res.status(404).json({ message: "Announcements not found" });
     }
 
     // trier le tableau par ordre décroissant d'annonces actives
     announcements.sort((a, b) => b.active - a.active);
-    
-    res.status(200).json(announcements);
 
-   
+    res.status(200).json(announcements);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -63,7 +62,7 @@ announcementController.getAllAnnouncementsByAgency = async (req, res) => {
 announcementController.getAnnouncementById = async (req, res) => {
   try {
     const announcement = await Announcement.findById(req.params.id);
-   
+
     !announcement
       ? res.status(404).json({ message: "Announcement not found" })
       : res.status(200).json(announcement);
@@ -95,6 +94,43 @@ announcementController.deleteAnnouncement = async (req, res) => {
     !announcement
       ? res.status(404).json({ message: "Announcement not found" })
       : res.status(200).json({ message: "Announcement deleted" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+//search annoucement
+announcementController.searchAnnouncements = async (req, res) => {
+  const { availableEndDate, availableStartDate, governorate, max, min } =
+    req.query;
+
+  try {
+    const query = {};
+
+    if (!isEmpty(availableStartDate) && !isEmpty(availableEndDate)) {
+      const startDate = new Date(availableStartDate);
+      const endDate = new Date(availableEndDate);
+      query.availableStartDate = { $lt: endDate };
+      query.availableEndDate = { $gt: startDate };
+    }
+   
+    if (!isEmpty(max) && !isEmpty(min)) {
+      query.price = { $gte: min, $lte: max };
+    } else if (!isEmpty(min)) {
+      query.price = { $gte: min };
+    } else if (!isEmpty(max)) {
+      query.price = { $lte: max };
+    }
+
+    if (!isEmpty(governorate)) {
+      query["address.governorate"] = { $regex: governorate, $options: "i" };
+    }
+
+    const announcements = await Announcement.find(query);
+
+    announcements
+      ? res.status(200).json(announcements)
+      : res.status(404).json({ message: "Announcements not found" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

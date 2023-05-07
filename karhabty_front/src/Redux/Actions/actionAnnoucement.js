@@ -4,7 +4,7 @@ import {
   Url_get_announcement_ById,Url_get_announcement_ByAgency,Url_add_announcement, Url_update_announcement_ById
 } from "../../Services/Api";
 
-import { GET_ALL_ANNOUCEMENT, GET_ANNOUCEMENT_By_ID , GET_ALL_By_AGENCY, ADD_ANNOUCEMENT, UPDATE_ANNOUCEMENT_By_ID} from "../constante";
+import { GET_ALL_ANNOUCEMENT, GET_ANNOUCEMENT_By_ID , GET_ALL_By_AGENCY, ADD_ANNOUCEMENT, UPDATE_ANNOUCEMENT_By_ID, SEARCH_ANNOUCEMENT} from "../constante";
 
 import { isAuth } from "../../Middleware/isAuth";
 
@@ -23,7 +23,7 @@ export const getOne = (id, token) => async (dispatch) => {
   
   try {
     const announcement = await getFromApi(`${Url_get_announcement_ById}${id}`, isAuth(token));
-console.log( "annouce dans l'action", announcement.data)
+
     dispatch({ type: GET_ANNOUCEMENT_By_ID, payload: announcement.data });
   } catch (e) {
     console.log(e);
@@ -66,3 +66,30 @@ export const updateAnnoucement = (anouncementToUpdate, id) => async (dispatch) =
     console.log(e);
   }
 };
+
+export const searchAnnoucement = (announcement, navigate)=> async(dispatch)=>{
+  try{
+    const params = {
+      params: {
+        availableEndDate: announcement.availableEndDate,
+        availableStartDate: announcement.availableStartDate,
+        governorate: announcement.governorate,
+        max: announcement.max,
+        min: announcement.min,
+        rate: announcement.rate
+      },
+    };
+    const announcements = await getFromApi("http://localhost:5000/karhabtyAnnouncement/searchAnnouncement/", params);
+
+   
+   console.log("result", announcements)
+
+    dispatch({ type: SEARCH_ANNOUCEMENT, payload: announcements.data });
+  if (announcements.data.length===0){
+    navigate("/notfound")
+  }
+  }
+  catch (e) {
+    console.log(e);
+  }
+}

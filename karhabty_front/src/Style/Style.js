@@ -86,3 +86,4 @@ export const switchStyle = {
   marginBottom: "10px",
   width: "10%",
 };
+

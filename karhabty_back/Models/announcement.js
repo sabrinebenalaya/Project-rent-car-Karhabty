@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const announcementSchema = mongoose.Schema({
-  price: { required: true, type: Number },
+  price: { required: true, type: Number }, 
   securityDeposit: { required: true, type: Number },
   latitude: {
     type: Number, required: true

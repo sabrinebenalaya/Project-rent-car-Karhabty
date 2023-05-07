@@ -23,9 +23,15 @@ import ListOrderAgency from "./Components/order/ListOrderAgency";
 import { useSelector } from "react-redux";
 import AnnouncementItem from "./Components/listOfAnnoucement/AnnouncementItem";
 import SearchAnnouncement from "./Components/listOfAnnoucement/SearchAnnouncement";
+import NotFound from "./Components/loader/NotFound";
 
 function App() {
-   const token = localStorage.getItem("jwt");
+  const auth = useSelector((state) => state.ReducerAuth);
+  const token = localStorage.getItem("jwt")
+const id = localStorage.getItem("idUser")
+const role = localStorage.getItem("role")
+const username = localStorage.getItem("username")
+
   return ( 
     <>
       <ToastContainer />
@@ -45,7 +51,7 @@ function App() {
             />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
-
+            <Route path="notfound" element={<NotFound/>} />
             <Route
               path="profil/"
               element={

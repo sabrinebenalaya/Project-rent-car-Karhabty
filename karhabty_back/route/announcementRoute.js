@@ -10,5 +10,5 @@ router.get("/announcement/:id", announcementController.getAnnouncementById);
 router.get("/announcement/", announcementController.getAllAnnouncements);
 router.get("/activeAnnouncement", announcementController.getAllActiveAnnouncements);
 router.get("/allAnnouncement/:id", announcementController.getAllAnnouncementsByAgency);
-
+router.get("/searchAnnouncement/", announcementController.searchAnnouncements);
 module.exports = router;
