@@ -31,8 +31,8 @@ router.get('/assets/:filename',(req,res)=>{
 router.put("/user/:id",authMiddleware, userController.update);
 router.delete("/user/:id", authMiddleware,userController.delete);
 router.get("/user/:id", authMiddleware, userController.getUserById);
-router.get("/users/:role",authMiddleware, userController.getAllByRole);
-router.get("/agency/:id",authMiddleware, userController.getAgency);
+router.get("/users/:role", userController.getAllByRole);
+router.get("/agency/:id", userController.getAgency);
 router.get("/users", userController.getAllUsers);
 
 module.exports = router;

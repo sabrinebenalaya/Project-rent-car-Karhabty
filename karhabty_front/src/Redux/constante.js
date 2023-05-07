@@ -23,6 +23,7 @@ export const DELETE_USER = "DELETE_USER";
 export const UPDATE_USERPHOTO = "UPDATE_USERPHOTO";
 export const GET_ALL_USER = "GET_ALL_USER";
 
+export const GET_ALL_AGENCY="GET_ALL_AGENCY"
 export const GET_AGENCY_By_ID = "GET_AGENCY_By_ID";
 export const PUT_AGENCY_By_ID = "PUT_AGENCY_By_ID";
 

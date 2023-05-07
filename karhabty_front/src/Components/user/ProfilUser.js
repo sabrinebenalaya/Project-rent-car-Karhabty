@@ -1,27 +1,28 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { updateProfilPhoto, getUser } from "../../Redux/Actions/actionUser";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { BiEditAlt } from "react-icons/bi";
-import { BsCameraFill } from "react-icons/bs";
 import { Button } from "react-bootstrap";
-import { butonCircle, iconPink } from "../../Style/Style";
+import { iconPink } from "../../Style/Style";
 import { GrChapterAdd } from "react-icons/gr";
 import CustomModal from "../../Atom/CustomModal";
 import { isEmpty } from "./../../Validator/isEmpty";
 import LoaderPage from "./../loader/LoaderPage";
 import "../../Style/style_profilPhoto.css";
-function ProfilUser({ id, role }) {
+function ProfilUser() {
   // get the user from stor
-
-  const user = useSelector((state) => state.ReducerUser.user);
-
+  const id = localStorage.getItem("idUser")
+  const token = localStorage.getItem("jwt")
+  const role = localStorage.getItem("role");
   // get the user when rendering the component
   const dispatch = useDispatch();
+ 
   useEffect(() => {
-    dispatch(getUser(id));
-  }, [id, dispatch]);
-
+    dispatch(getUser(id,token));
+  }, [id,token, dispatch]);
+  const user = useSelector((state) => state.ReducerUser.user);
+  
   //update profil photo
   const [file, setFile] = useState(null);
   
@@ -31,7 +32,6 @@ function ProfilUser({ id, role }) {
  
   const handleFileInputChange = (event) => {
     const selectedFile = event.target.files[0];
-    console.log("the directed file", selectedFile);
     setFile(selectedFile);
     setIsLoading(true);
   };
@@ -70,7 +70,7 @@ function ProfilUser({ id, role }) {
   const handleCloseAgencyName = () => setShowAgencyName(false);
  
   return (
-    <>
+    
       <section className="container" style={{ backgroundColor: "#fffaf6" }}>
         <div className="container py-5">
           <div className="row">
@@ -81,9 +81,9 @@ function ProfilUser({ id, role }) {
                     {isLoading ? (
                       <LoaderPage/>
                     ) : (
-                      <div class="profile-pic">
-                        <label class="-label" for="file">
-                          <span class="glyphicon glyphicon-camera"></span>
+                      <div className="profile-pic">
+                        <label className="-label" >
+                          <span className="glyphicon glyphicon-camera"></span>
                           <span>Change Image</span>
                         </label>
                         <input
@@ -91,7 +91,7 @@ function ProfilUser({ id, role }) {
                           type="file"
                           onChange={handleFileInputChange}
                         />
-                        <img src={user.photo} id="output" width="200" />
+                        <img src={user.photo} id="output" width="200" alt="user"/>
                       </div>
                     )}
                   </div>
@@ -360,7 +360,7 @@ function ProfilUser({ id, role }) {
           </div>
         </div>
       </section>
-    </>
+    
   );
 }
 

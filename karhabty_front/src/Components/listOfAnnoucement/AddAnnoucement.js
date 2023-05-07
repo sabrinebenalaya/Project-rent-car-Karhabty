@@ -19,10 +19,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router";
 
-function AddAnnoucement({ id }) {
+function AddAnnoucement() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const id = localStorage.getItem("idUser");
   //agency and car information
   useEffect(() => {
     dispatch(getUser(id));

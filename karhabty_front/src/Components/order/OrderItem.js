@@ -1,11 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { MDBBadge } from "mdb-react-ui-kit";
-import { useDispatch } from "react-redux";
 import { strongText } from "../../Style/Style";
-import { isEmpty } from "../../Validator/isEmpty";
-import { AiFillStar } from 'react-icons/ai';
-function OrderItem({ order, role , agency, announcement, car, reviews}) {
-
+function OrderItem({ order , agency,  car}) {
 
  
 
@@ -56,7 +52,7 @@ function OrderItem({ order, role , agency, announcement, car, reviews}) {
             <p className="fw-bold mb-1">
               {car.brand},{car.model}
             </p>
-            <p className="text-muted mb-0">{agency.agencyName}</p>
+          <p className="text-muted mb-0">{agency.agencyName}</p> 
           </div>
         </div>
       </td>

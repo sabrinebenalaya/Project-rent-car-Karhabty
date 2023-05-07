@@ -1,8 +1,7 @@
 import {
   Url_get_user_ById,
   Url_update_User_ById,
-  Url_update_User_PROFIL_PHOTO,
-  Url_GET_ALL_USER,
+  
 } from "../../Services/Api";
 import { getFromApi, putInApi } from "../../Services/serviceAPI";
 import {
@@ -14,8 +13,6 @@ import {
   GET_ALL_USER,
 } from "../constante";
 import { toast } from "react-toastify";
-import axios from "axios";
-import { isEmpty } from "../../Validator/isEmpty";
 import { isAuth } from "../../Middleware/isAuth";
 export const addUser = async (user) => {
   return { type: ADD_USER, payload: user };
@@ -39,9 +36,9 @@ export const updateProfilPhoto = (id, file) => async (dispatch) => {
 };
 
 //update user
-export const updateUser = (newuser, id) => async (dispatch) => {
+export const updateUser = (newuser, id,token) => async (dispatch) => {
   try {
-    const user = await putInApi(`${Url_update_User_ById}${id}`, newuser);
+    const user = await putInApi(`${Url_update_User_ById}${id}`, newuser,isAuth(token));
 
     dispatch({ type: UPDATE_USER, payload: user.data });
 
@@ -55,10 +52,10 @@ export const deleteUser = async () => {
   return { type: DELETE_USER };
 };
 
-export const getUser = (id) => async (dispatch) => {
+export const getUser = (id,token) => async (dispatch) => {
 
   try {
-    const user = await getFromApi(`${Url_get_user_ById}${id}`);
+    const user = await getFromApi(`${Url_get_user_ById}${id}`,isAuth(token));
 
     dispatch({ type: GET_USER_By_ID, payload: user.data });
   } catch (e) {
@@ -66,10 +63,10 @@ export const getUser = (id) => async (dispatch) => {
   }
 };
 
-export const getAllUser = () => async (dispatch) => {
+export const getAllUser = (token) => async (dispatch) => {
 
   try {
-    const users = await getFromApi("http://localhost:5000/karhabtyUser/users");
+    const users = await getFromApi("http://localhost:5000/karhabtyUser/users", isAuth(token));
   
     dispatch({ type: GET_ALL_USER, payload: users.data });
   } catch (e) {

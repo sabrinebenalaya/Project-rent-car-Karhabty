@@ -1,16 +1,17 @@
 import { getFromApi, postInApi, putInApi } from "../../Services/serviceAPI";
 import {
-  Url_all_active_announcement,
+  
   Url_get_announcement_ById,Url_get_announcement_ByAgency,Url_add_announcement, Url_update_announcement_ById
 } from "../../Services/Api";
 
 import { GET_ALL_ANNOUCEMENT, GET_ANNOUCEMENT_By_ID , GET_ALL_By_AGENCY, ADD_ANNOUCEMENT, UPDATE_ANNOUCEMENT_By_ID} from "../constante";
-import { Navigate } from 'react-router-dom';
+
+import { isAuth } from "../../Middleware/isAuth";
 
 export const getAll = () => async (dispatch) => {
   try {
     const announcements = await getFromApi("http://localhost:5000/karhabtyAnnouncement/announcement/");
-    console.log(announcements)
+   
     dispatch({ type: GET_ALL_ANNOUCEMENT, payload: announcements.data });
     
   } catch (e) {
@@ -18,10 +19,11 @@ export const getAll = () => async (dispatch) => {
   }
 };
 
-export const getOne = (id) => async (dispatch) => {
+export const getOne = (id, token) => async (dispatch) => {
+  
   try {
-    const announcement = await getFromApi(`${Url_get_announcement_ById}${id}`);
-
+    const announcement = await getFromApi(`${Url_get_announcement_ById}${id}`, isAuth(token));
+console.log( "annouce dans l'action", announcement.data)
     dispatch({ type: GET_ANNOUCEMENT_By_ID, payload: announcement.data });
   } catch (e) {
     console.log(e);
@@ -31,7 +33,6 @@ export const getOne = (id) => async (dispatch) => {
 export const getAllByAgency = (id) => async (dispatch) => {
   try {
     const announcement = await getFromApi(`${Url_get_announcement_ByAgency}/${id}`);
-console.log("liste des anouncement dans action", announcement.data)
     dispatch({ type: GET_ALL_By_AGENCY, payload: announcement.data });
    
   } catch (e) {

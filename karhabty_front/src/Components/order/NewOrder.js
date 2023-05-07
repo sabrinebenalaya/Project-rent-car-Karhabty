@@ -18,18 +18,23 @@ import CustomDatePicker from "../../Atom/CustomDatePicker";
 import { Link } from "react-router-dom";
 import { isEmpty } from "./../../Validator/isEmpty";
 import "react-datepicker/dist/react-datepicker.css";
+import { differenceInDays } from 'date-fns';
+
 
 function NewOrder() {
   //get id of annoucement
   const { id } = useParams();
+  const token = localStorage.getItem("jwt");
+
   //get annoucement information
   const dispatch = useDispatch();
-  const annoucement = useSelector(
-    (state) => state.ReducerAnnoucement.annoucement
-  );
   useEffect(() => {
     dispatch(getOne(id));
   }, [id, dispatch]);
+  const annoucement = useSelector(
+    (state) => state.ReducerAnnoucement.annoucement
+  );
+  console.log('info announce', annoucement)
 
   // get car info
   const car = useSelector((state) => state.ReducerCars.car);
@@ -43,15 +48,18 @@ function NewOrder() {
     dispatch(getReviewCar(car._id));
   }, [car._id, dispatch]);
 
-  const averageRating =
-    reviews.reduce((total, review) => total + review.rating, 0) /
+  let averageRating = 0;
+  if (reviews.length>0){
+   averageRating =  reviews.reduce((total, review) => total + review.rating, 0) /
     reviews.length;
+  }
+   console.log("rate", averageRating) 
 
   //get agency information
   const agency = useSelector((state) => state.ReducerAgency.agency);
   useEffect(() => {
-    dispatch(getAgency(annoucement.agence));
-  }, [annoucement.agence, dispatch]);
+    dispatch(getAgency(annoucement.agence, token));
+  }, [annoucement.agence,token, dispatch]);
  
 
   /// dates of order
@@ -64,8 +72,12 @@ function NewOrder() {
     setEndDate(date);
   };
 
-  // calcul total price
-  const [day, SetDay] = useState(1);
+  function getDaysDifference(startDate, endDate) {
+    const daysDifference = differenceInDays(new Date(endDate), new Date(startDate));
+    return daysDifference;
+  }
+
+ 
 
   return (
     <div className="container">
@@ -131,8 +143,8 @@ function NewOrder() {
       <hr />
       <div>
         <h3>
-          Rent the {car.brand} , {car.model} for {day} days with this price :{" "}
-          {(day * annoucement.price)+annoucement.securityDeposit} Dnt.
+          Rent the {car.brand} , {car.model} for {getDaysDifference(startDate, endDate)} days with this price :{" "}
+          {(getDaysDifference(startDate, endDate)* annoucement.price)+annoucement.securityDeposit} Dnt.
         </h3>
         <div>
           <div>
@@ -142,7 +154,7 @@ function NewOrder() {
                 <CustomDatePicker onDateChange={handleStartDateChange} />
                 {startDate && (
                   <p style={{ marginLeft: "-300px" }}>
-                    La date sélectionnée est: {startDate.toLocaleDateString()}
+                    La date debut de location est: {startDate.toLocaleDateString()}
                   </p>
                 )}
               </div>
@@ -157,7 +169,7 @@ function NewOrder() {
                 />
                 {endDate && (
                   <p style={{ marginLeft: "-300px" }}>
-                    La date sélectionnée est : {endDate.toLocaleDateString()}
+                    La date fin de location est : {endDate.toLocaleDateString()}
                   </p>
                 )}
               </div>
@@ -165,7 +177,7 @@ function NewOrder() {
             <div style={rigth_footer_order}>
               <Link to="/">
                 <button type="button" className="main-btn">
-                  Confirm the Order
+                  Paiement the Order
                 </button>
               </Link>
             </div>

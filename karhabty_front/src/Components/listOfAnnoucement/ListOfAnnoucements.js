@@ -4,30 +4,44 @@ import { bloc_flex } from "../../Style/Style";
 import { useDispatch, useSelector } from "react-redux";
 import LoaderPage from "./../loader/LoaderPage";
 import { getAll, getAllByAgency } from "../../Redux/Actions/actionAnnoucement";
-function ListOfAnnoucements({id, role}) {
+import {
+  getAllAgency,
+} from "./../../Redux/Actions/actionAgency";
 
- 
-    // get the list of annoucements
+function ListOfAnnoucements() {
+  const id = localStorage.getItem("idUser");
+  const role = localStorage.getItem("role");
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(getAllAgency("Agency"));
     if (role === "Agency") {
-      dispatch(getAllByAgency(id))
+      dispatch(getAllByAgency(id));
     } else {
-    
       dispatch(getAll());
-    }
-  }, [id,role,dispatch]);
+    } 
+  }, [id, role, dispatch]);
   const list = useSelector((state) => state.ReducerAnnoucement.announcements);
-console.log("list of annoucement", list)
+  const announcements = Array.isArray(list) ? list : [list];
+  const agencys = useSelector((state) => state.ReducerAgency.agencys);
+  function getAgency(id) {
+    return agencys.find((agency) => agency._id === id);
+  }
   return (
     <>
-      {list.length === 0 ? (
+      {announcements.length === 0 ? (
         <LoaderPage />
       ) : (
         <div style={bloc_flex}>
-          {list?.map((item, key) => (
-            <CardOfAnnoucement key={key} announcement={item} />
-          ))}
+          {announcements?.map((item, key) => {
+            const agency = getAgency(item.agence);
+            return (
+              <CardOfAnnoucement
+                key={key}
+                announcement={item}
+                agency={agency}
+              />
+            );
+          })}
         </div>
       )}
     </>

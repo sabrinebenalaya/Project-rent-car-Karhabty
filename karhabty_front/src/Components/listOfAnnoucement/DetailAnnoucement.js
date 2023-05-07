@@ -19,9 +19,27 @@ import DetailCar from "../car/DetailCar";
 import { Link } from "react-router-dom";
 import CustomModal from "../../Atom/CustomModal";
 import CustomButton from "../../Atom/CustomButton";
+import { isEmpty } from "../../Validator/isEmpty";
+import LoaderPage from "../loader/LoaderPage";
 function DetailAnnoucement() {
   const role = localStorage.getItem("role");
+  const token = localStorage.getItem("jwt");
 
+  //get the id of annoucement
+  const { id } = useParams();
+  // get the annoucement when rendering the component
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getOne(id, token));
+  }, [token,id, dispatch]);
+
+  // get the annoucement
+
+  const annoucement = useSelector(
+    (state) => state.ReducerAnnoucement.annoucement
+  );
+ 
+console.log("cette annouce=", annoucement)
   /* Modal*/
   const [show, setShow] = useState(false);
 
@@ -29,25 +47,11 @@ function DetailAnnoucement() {
   const handleShow = () => setShow(true);
   /* end Modal */
 
-  //get the id of car
-  const { id } = useParams();
-
-  // get the car
-  const dispatch = useDispatch();
-  const annoucement = useSelector(
-    (state) => state.ReducerAnnoucement.annoucement
-  );
-
-  // get the car when rendering the component
-  useEffect(() => {
-    dispatch(getOne(id));
-  }, [id, dispatch]);
-
   function reverseString(str) {
     return str.split("-").reverse().join("-");
   }
 
-  // cast the date to string
+  // cast the dates to string
   let startDate = "";
   if (annoucement.availableStartDate) {
     startDate = annoucement.availableStartDate.slice(0, 10);
@@ -56,7 +60,6 @@ function DetailAnnoucement() {
     startDate = "";
   }
 
-  // console.log("99",annoucement.availableDates.startDate)
   let endDate = "";
   if (annoucement.availableEndDate) {
     endDate = annoucement.availableEndDate.slice(0, 10);
@@ -64,6 +67,7 @@ function DetailAnnoucement() {
   } else {
     endDate = "";
   }
+
   //Style
   const circleColor = { ...circle, backgroundColor: annoucement.color };
 
@@ -100,8 +104,14 @@ function DetailAnnoucement() {
     width: "20px",
     height: "20px",
   };
+
+  
+
   return (
-    <div className="container">
+    <>
+    {isEmpty(annoucement) ? (
+    <LoaderPage />
+    ) : (<div className="container">
       <div style={{ marginTop: "2%" }}>
         <div style={flex_two_element}>
           <div style={Left}>
@@ -114,7 +124,7 @@ function DetailAnnoucement() {
                 title="  More Detail of car"
               />
               {role === "User" && (
-                <Link to={`/profil/order/${annoucement._id}`}>
+                <Link to={`/profil/order/${annoucement._id}`}> 
                   <Button variant="success">Order</Button>
                 </Link>
               )}
@@ -184,7 +194,10 @@ function DetailAnnoucement() {
                     />
                   )}{" "}
                   in this adress
-                  <strong>{annoucement.address}</strong>
+                  <strong>
+                    {annoucement.address.city}, {annoucement.address.governorate}, {annoucement.address.postalCode}, {annoucement.address.country}{" "}
+                  </strong>
+                
                 </p>
               </div>{" "}
               <div style={{ height: "30vh", width: "100%" }}>
@@ -299,7 +312,8 @@ function DetailAnnoucement() {
           id={annoucement._id}
         />
       </div>
-    </div>
+    </div>)}
+    </>
   );
 }
 

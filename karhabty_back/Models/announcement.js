@@ -17,8 +17,8 @@ const announcementSchema = mongoose.Schema({
   status: { type: String, enum: ["Active", "Inactive"], required: true },
   titre: { type: String, required: true },
   description: { required: true, type: String },
-  availableStartDate: { type: Date },
-
+  availableStartDate: { type: Date }, 
+ 
   availableEndDate: { type: Date   },
 
   car: {

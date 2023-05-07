@@ -7,19 +7,19 @@ import LoaderPage from "../loader/LoaderPage";
 import { getAll } from "../../Redux/Actions/actionAnnoucement";
 import { getAllCars } from "../../Redux/Actions/actionCars";
 import { getAllUser } from "../../Redux/Actions/actionUser";
-import { getAllReview } from "../../Redux/Actions/actionRate";
 import { isEmpty } from "../../Validator/isEmpty";
 
-function ListOfOrder({ idUser }) {
+function ListOfOrder() {
   // get the list of orders by user
   const dispatch = useDispatch();
+  const idUser = localStorage.getItem("idUser");
+  const token = localStorage.getItem("jwt");
 
   useEffect(() => {
-    dispatch(getAllOrdersByUser(idUser));
-    dispatch(getAll());
-    dispatch(getAllCars());
-    dispatch(getAllUser());
-    dispatch(getAllReview());
+    dispatch(getAllOrdersByUser(idUser, token));
+    dispatch(getAll);
+    dispatch(getAllCars(token));
+    dispatch(getAllUser(token));
   }, [idUser, dispatch]);
 
   const listOrders = useSelector((state) => state.ReducerOrder.orders);
@@ -27,45 +27,24 @@ function ListOfOrder({ idUser }) {
     (state) => state.ReducerAnnoucement.announcements
   );
   const listCars = useSelector((state) => state.ReducerCars.cars);
-  const listUser = useSelector((state) => state.ReducerUser.users);
-  const listReviews = useSelector((state) => state.ReducerReview.reviews);
+
+  const listAgency = useSelector((state) => state.ReducerUser.users);
 
   function getInfo(item) {
+    const agency = listAgency.find((el) => el._id === item.agency);
     const announcement = listAnnouncement.find(
       (el) => el._id === item.announcement
     );
 
     let car = {};
-    let agency = {};
-    let reviews = [];
+
     if (announcement) {
       car = listCars.find((el) => el._id === announcement.car);
-
-      agency = listUser.find((el) => el._id === announcement.agence);
-      if (car) {
-        reviews = listReviews.filter((el) => el.car === car._id);
-      }
     }
 
-    return { announcement, car, agency, reviews };
+    return {  car, agency };
   }
-  isEmpty(listOrders) ||
-  isEmpty(listCars) ||
-  isEmpty(listUser) ||
-  isEmpty(listAnnouncement)
-    ? console.log(
-        "one of this is empty",
-        isEmpty(listOrders),
-        isEmpty(listCars),
-        isEmpty(listUser),
-        isEmpty(listAnnouncement)
-      )
-    : console.log(
-       listOrders,
-          listCars,
-          listUser,
-         listAnnouncement
-      );
+
   return (
     <div className=" container py-5 ">
       <MDBTable align="middle">
@@ -75,24 +54,20 @@ function ListOfOrder({ idUser }) {
             <th scope="col">Car</th>
             <th scope="col">Price</th>
             <th scope="col">Status</th>
-            <th scope="col">Rate</th>
           </tr>
         </MDBTableHead>
         <MDBTableBody>
           {isEmpty(listOrders) ? (
-            <LoaderPage /> 
+            <LoaderPage />
           ) : (
             listOrders.map((item, key) => {
-              const { announcement, car, agency, reviews } = getInfo(item);
+              const {  car, agency }=getInfo(item)
               return (
                 <OrderItem
                   key={key}
                   order={item}
-                 
-                  announcement={announcement}
                   car={car}
                   agency={agency}
-                  reviews={reviews}
                 />
               );
             })

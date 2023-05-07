@@ -4,11 +4,10 @@ export const bloc_flex = {
   justifyContent: "space-around",
 };
 export const card_car = {
-  height: "22rem",
-  width: "22rem",
-  margin: "20px",
-  backgroundColor: "#fffaf6",
-};
+  height: "26rem",
+  aspectRatio: "20/16", 
+  margin: "20px"};
+
 
 export const flex_two_element = {
   display: "flex",
@@ -68,3 +67,22 @@ export const rigth_footer_order = {
   paddingTop: "5%",
 };
 export const strongText = { fontWeight: "bold", color: "black" };
+export const searchForm = {
+  backgroundColor: "red",
+  padding: "20px",
+  width: "100%",
+  margin: "2%",
+  borderRadius: "10px",
+};
+export const atomStyle = {
+  borderRadius: "10px",
+  textAlign: "center",
+  width: "30%",
+  margin: "auto",marginLeft:"10%", marginTop:"5%"
+};
+
+
+export const switchStyle = {
+  marginBottom: "10px",
+  width: "10%",
+};

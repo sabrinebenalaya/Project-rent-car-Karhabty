@@ -6,14 +6,15 @@ import LoaderPage from "../loader/LoaderPage";
 import { isEmpty } from "../../Validator/isEmpty";
 import { strongText } from "../../Style/Style";
 import { MDBBadge } from "mdb-react-ui-kit";
-function ListOrderAgency({ idUser }) {
-  console.log("id agence=", idUser);
+function ListOrderAgency() {
+  const idUser = localStorage.getItem("idUser");
+  
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllOrdersByAgency(idUser));
-  }, [dispatch]);
+  }, [idUser,dispatch]);
   const listOrders = useSelector((state) => state.ReducerOrder.orders);
-  console.log("list des orders liés à l'agence=", listOrders);
+
 
   function reverseString(str) {
     return str.split("-").reverse().join("-");

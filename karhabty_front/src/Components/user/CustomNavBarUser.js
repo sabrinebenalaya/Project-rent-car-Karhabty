@@ -2,14 +2,15 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { logOut } from "../../Redux/Actions/actionAuth";
 import { useDispatch } from "react-redux";
-function CustomNavBarUser({  username, role }) {
- 
+function CustomNavBarUser() {
+  const role = localStorage.getItem("role")
+  const username = localStorage.getItem("username")
   const dispatch = useDispatch();
   const navigate = useNavigate();
   return (
-    <nav
+    <nav id="footer"
       aria-label="breadcrumb"
-      className="rounded-3 p-3 mb-4 container mt-2"
+      className="rounded-3 p-3 mb-4  mt-2"
       style={{
         display: "flex",
         alignItems: "center",
@@ -28,7 +29,7 @@ function CustomNavBarUser({  username, role }) {
           </Link>
         </>
       )}
-      {role == "User" && (<Link style={{ color: "red" }} to="orders">
+      {role === "User" && (<Link style={{ color: "red" }} to="orders">
         Orders
       </Link>)}
       
@@ -41,7 +42,7 @@ function CustomNavBarUser({  username, role }) {
           style={{ color: "red" }}
           to="/"
           onClick={() => dispatch(logOut(navigate))}
-        >
+        > 
           Log out
         </Link>
       </div>

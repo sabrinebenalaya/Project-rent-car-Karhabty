@@ -30,6 +30,8 @@ function CustomModal({
   adress,
   type,
 }) {
+
+  const token = localStorage.getItem("jwt");
   //set the Adress
   const [adressState, SetAdressState] = useState({});
   const handleChangeStateAdress = (e) => {
@@ -85,9 +87,9 @@ function CustomModal({
       if (!validator.isNumeric(updatedAdressState.postalCode)) {
         toast.error("Postal Code must be a number");
       } else {
-        dispatch(updateUser({ address: updatedAdressState }, id));
+        dispatch(updateUser({ address: updatedAdressState }, id,token));
         handleClose();
-        dispatch(getUser(id));
+        dispatch(getUser(id,token));
       }
     }
 
@@ -101,9 +103,9 @@ function CustomModal({
           toast.error(errors.reppassword);
         }
       } else {
-        dispatch(updateUser({ password: passwordState.password }, id));
+        dispatch(updateUser({ password: passwordState.password }, id,token));
         handleClose();
-        dispatch(getUser(id));
+        dispatch(getUser(id,token));
       }
     }
 
@@ -112,9 +114,9 @@ function CustomModal({
       if (!isValid) {
         toast.error(errors.phone);
       } else {
-        dispatch(updateUser({ phone: text }, id));
+        dispatch(updateUser({ phone: text }, id,token));
         handleClose();
-        dispatch(getUser(id));
+        dispatch(getUser(id,token));
       }
     }
     if (!isEmpty(nameState)) {
@@ -127,9 +129,9 @@ function CustomModal({
           toast.error(errors.firstName);
         }
       } else {
-        dispatch(updateUser(nameState, id));
+        dispatch(updateUser(nameState, id,token));
         handleClose();
-        dispatch(getUser(id));
+        dispatch(getUser(id,token));
       }
     }
 
@@ -138,14 +140,14 @@ function CustomModal({
         if (!validator.isLength(text.trim(), { min: 1 })) {
           toast.error("The agencyName must have at least 1 letter.");
         } else {
-          dispatch(updateUser({ [attribut]: text }, id));
+          dispatch(updateUser({ [attribut]: text }, id,token));
           handleClose();
-          dispatch(getUser(id));
+          dispatch(getUser(id,token));
         }
       } else {
-        dispatch(updateUser({ [attribut]: text }, id));
+        dispatch(updateUser({ [attribut]: text }, id,token));
         handleClose();
-        dispatch(getUser(id));
+        dispatch(getUser(id,token));
       }
     }
     if (
