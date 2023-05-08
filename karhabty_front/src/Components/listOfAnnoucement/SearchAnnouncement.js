@@ -74,7 +74,7 @@ function SearchAnnouncement() {
           <div className="col-lg-6">
             <div className="single-form form-group">
               <label>Date de retour</label>
-              <DatePicker
+              <DatePicker 
                 showIcon
                 selected={announcement.availableEndDate}
                 onChange={(date) =>

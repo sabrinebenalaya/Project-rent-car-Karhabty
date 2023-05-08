@@ -1,7 +1,23 @@
-import React from "react";
-import { Link } from "react-router-dom";
 
+import { Link } from "react-router-dom";
+import React, { useRef } from 'react';
+import emailjs from '@emailjs/browser';
+import { toast } from "react-toastify";
 function Footer() {
+
+    const form = useRef();
+
+    const sendEmail = (e) => {
+      e.preventDefault();
+  
+      emailjs.sendForm("service_zzf9bky",  "template_5xqlmzt", form.current, "mzYOmtdDxrLx9ikDG")
+        .then((result) => {
+            toast("message sent")
+        }, (error) => {
+            console.log(error.text);
+            toast.error(error.text)
+        });
+    };
   return (
     <div>
       {" "}
@@ -64,9 +80,7 @@ function Footer() {
                 <div className="col-lg-8">
                   <div className="contact-form">
                     <form
-                      id="contact-form"
-                      action="assets/contact.php"
-                      method="post"
+                      ref={form} onSubmit={sendEmail}
                       data-toggle="validator"
                     >
                       <div className="row">
@@ -74,7 +88,7 @@ function Footer() {
                           <div className="single-form form-group">
                             <input
                               type="text"
-                              name="name"
+                              name="user_name"
                               placeholder="Enter Your Name"
                               data-error="Name is required."
                               required="required"
@@ -87,7 +101,7 @@ function Footer() {
                           <div className="single-form form-group">
                             <input
                               type="email"
-                              name="email"
+                              name="user_email"
                               placeholder="Enter Your Email"
                               data-error="Valid email is required."
                               required="required"

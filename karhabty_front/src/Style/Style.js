@@ -65,6 +65,7 @@ export const rigth_footer_order = {
   ...flex_two_element,
   paddingRight: "15%",
   paddingTop: "5%",
+  alignItems: "flex-end"
 };
 export const strongText = { fontWeight: "bold", color: "black" };
 export const searchForm = {

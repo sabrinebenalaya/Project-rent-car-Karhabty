@@ -13,19 +13,7 @@ function ListOfAnnoucements() {
   const id = localStorage.getItem("idUser");
   const role = localStorage.getItem("role");
   const {listofAnnouncement} = useAnnoucement();
-/* const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getAllAgency("Agency"));
-    if (role === "Agency") {
-      dispatch(getAllByAgency(id));
-    } else {
-      dispatch(getAll());
-    } 
-  }, [id, role, dispatch]);
-  const list = useSelector((state) => state.ReducerAnnoucement.announcements);
-  const announcements = Array.isArray(list) ? list : [list];
 
- */
   
   const announcements = Array.isArray(listofAnnouncement) ? listofAnnouncement : [listofAnnouncement];
 
